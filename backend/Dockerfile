@@ -30,6 +30,9 @@ RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/drizzle.config.ts ./
 
+# Copy fonts for PDF generation with Polish character support
+COPY --from=builder /app/assets ./assets
+
 # Expose port
 EXPOSE 3000
 

@@ -7,7 +7,7 @@ class RetirementController {
     const input = calculateRetirementSchema.parse(req.body);
 
     const result = {
-      expectedRetirementAge: retirementService.getExpectedRetirementDate(input.gender, input.date),
+      expectedRetirementAge: null, //retirementService.getExpectedRetirementDate(input.gender, input.date),
     };
 
     res.json(result);
