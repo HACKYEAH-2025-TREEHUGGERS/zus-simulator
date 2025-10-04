@@ -10,7 +10,7 @@ const app: Express = express();
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from TypeScript Express on Node 23!');
+  res.send('Hello from TypeScript Express on Node 23ss!');
 });
 
 // Health check endpoint with database connection test
