@@ -1,12 +1,14 @@
 {
   "pl": {
     "translation": {
-      "Welcome to React": "Witamy w React i react-i18next"
+      "step": "Krok",
+      "step1": {
+        "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
+        "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości"
+      }
     }
   },
   "en": {
-    "translation": {
-      "Welcome to React": "Welcome to React and react-i18next"
-    }
+    "translation": {}
   }
 }
