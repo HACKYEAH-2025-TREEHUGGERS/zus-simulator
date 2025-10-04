@@ -1,4 +1,6 @@
 -- Wstawianie danych
+DELETE FROM avg_sick_leave_duration;
+
 INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, avg_male_sick_leave_days) VALUES
 ('powiat aleksandrowski', 12.33, 11.28),
 ('powiat augustowski', 11.03, 10.38),
@@ -12,7 +14,6 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat białostocki', 11.08, 10.91),
 ('Białystok', 10.11, 9.91),
 ('powiat bielski', 11.61, 11.64),
-('powiat bielski', 11.21, 10.80), -- Uwaga: duplikat nazwy powiatu
 ('Bielsko-Biała', 10.72, 10.53),
 ('powiat bieruńsko-lędziński', 10.82, 10.34),
 ('powiat bieszczadzki', 11.50, 11.82),
@@ -22,7 +23,6 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat braniewski', 12.28, 12.17),
 ('powiat brodnicki', 12.41, 10.96),
 ('powiat brzeski', 11.52, 11.36),
-('powiat brzeski', 10.26, 9.98),  -- Uwaga: duplikat nazwy powiatu
 ('powiat brzeziński', 12.52, 11.58),
 ('powiat brzozowski', 12.16, 11.98),
 ('powiat buski', 12.04, 12.77),
@@ -74,7 +74,6 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat górowski', 11.43, 10.65),
 ('powiat grajewski', 12.13, 10.99),
 ('powiat grodziski', 10.50, 10.13),
-('powiat grodziski', 12.51, 10.73), -- Uwaga: duplikat nazwy powiatu
 ('powiat grójecki', 11.56, 11.33),
 ('Grudziądz', 12.23, 11.61),
 ('powiat grudziądzki', 12.24, 11.69),
@@ -128,7 +127,6 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat kraśnicki', 11.25, 11.78),
 ('Krosno', 11.11, 11.23),
 ('powiat krośnieński', 11.79, 11.38),
-('powiat krośnieński', 12.37, 11.68), -- Uwaga: duplikat nazwy powiatu
 ('powiat krotoszyński', 11.34, 10.86),
 ('powiat kutnowski', 12.58, 11.82),
 ('powiat kwidzyński', 13.33, 12.19),
@@ -186,7 +184,6 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat nidzicki', 13.03, 12.33),
 ('powiat niżański', 12.27, 12.55),
 ('powiat nowodworski', 11.28, 10.69),
-('powiat nowodworski', 11.19, 10.71), -- Uwaga: duplikat nazwy powiatu
 ('powiat nowomiejski', 12.99, 12.54),
 ('powiat nowosądecki', 12.69, 11.97),
 ('powiat nowosolski', 11.37, 10.33),
@@ -206,12 +203,10 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat opoczyński', 13.45, 12.97),
 ('Opole', 9.12, 9.24),
 ('powiat opolski', 12.38, 12.17),
-('powiat opolski', 10.23, 10.01), -- Uwaga: duplikat nazwy powiatu
 ('powiat ostrołęcki', 11.95, 11.28),
 ('Ostrołęka', 10.56, 10.64),
 ('powiat ostrowiecki', 11.83, 11.94),
 ('powiat ostrowski', 12.33, 12.14),
-('powiat ostrowski', 11.77, 11.04), -- Uwaga: duplikat nazwy powiatu
 ('powiat ostródzki', 11.90, 11.96),
 ('powiat ostrzeszowski', 11.80, 11.07),
 ('powiat oświęcimski', 11.13, 10.10),
@@ -307,10 +302,8 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat sztumski', 12.18, 11.34),
 ('powiat szydłowiecki', 11.77, 11.98),
 ('powiat średzki', 10.65, 10.38),
-('powiat średzki', 10.93, 10.09), -- Uwaga: duplikat nazwy powiatu
 ('powiat śremski', 11.25, 10.39),
 ('powiat świdnicki', 11.11, 10.62),
-('powiat świdnicki', 10.58, 9.93), -- Uwaga: duplikat nazwy powiatu
 ('powiat świdwiński', 10.83, 11.02),
 ('powiat świebodziński', 11.67, 10.46),
 ('powiat świecki', 13.00, 11.98),
@@ -324,7 +317,6 @@ INSERT INTO avg_sick_leave_duration (county_name, avg_female_sick_leave_days, av
 ('powiat tatrzański', 11.03, 12.01),
 ('powiat tczewski', 10.68, 10.32),
 ('powiat tomaszowski', 11.39, 11.46),
-('powiat tomaszowski', 13.12, 13.13), -- Uwaga: duplikat nazwy powiatu
 ('Toruń', 10.95, 10.72),
 ('powiat toruński', 12.18, 11.57),
 ('powiat trzebnicki', 9.86, 9.93),
