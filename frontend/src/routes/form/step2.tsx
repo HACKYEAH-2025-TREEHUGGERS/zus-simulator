@@ -2,8 +2,10 @@ import { useTranslation } from 'react-i18next'
 import { Text } from 'react-aria-components'
 import { useNavigate } from '@tanstack/react-router'
 import { useRetirementForm } from './-components/retirement-form-provider'
+import type { genders } from './-components/retirement-form-provider'
 import { NumberInput } from '@/components/number-input'
 import { Button } from '@/components/button'
+import { Select, SelectItem } from '@/components/select'
 
 export function Step2() {
   const form = useRetirementForm()
@@ -20,21 +22,64 @@ export function Step2() {
       </Text>
 
       <form>
-        <div>
+        <div className='flex gap-15 mt-8"'>
           <NumberInput
-            {...form.register('expectedRetirement', {
+            {...form.register('age', {
               required: true,
             })}
-            onChange={(v) => form.setValue('expectedRetirement', v)}
+            onChange={(v) => form.setValue('age', v)}
             minValue={0}
-            label={t('step1.retirementQuestion')}
-            className="mt-8"
-            suffix="PLN"
+            maxValue={150}
+            label={t('step2.age')}
+            className="w-[150px]"
             formatOptions={{
-              maximumFractionDigits: 2,
+              maximumFractionDigits: 0,
             }}
+            isRequired
           />
+          <Select
+            label={t('step2.gender')}
+            value={form.watch('gender')}
+            onChange={(selected) => {
+              form.setValue('gender', selected as (typeof genders)[number])
+            }}
+            isRequired
+          >
+            <SelectItem id="male">{t('common.male')}</SelectItem>
+            <SelectItem id="female">{t('common.female')}</SelectItem>
+          </Select>
         </div>
+
+        <NumberInput
+          {...form.register('grossSalary', {
+            required: true,
+          })}
+          onChange={(v) => form.setValue('grossSalary', v)}
+          minValue={0}
+          label={t('step2.salaryGross')}
+          className="mt-8"
+          suffix="PLN"
+          isRequired
+          formatOptions={{
+            maximumFractionDigits: 2,
+          }}
+        />
+
+        <NumberInput
+          {...form.register('workStartDate', {
+            required: true,
+          })}
+          onChange={(v) => form.setValue('workStartDate', v.toString())}
+          minValue={new Date().getFullYear() - 100}
+          maxValue={new Date().getFullYear()}
+          label={t('step2.workStartYear')}
+          className="mt-8"
+          isRequired
+          formatOptions={{
+            maximumFractionDigits: 0,
+          }}
+          tooltip={t('step2.tooltipWorkStartDate')}
+        />
 
         <div className="flex">
           <Button

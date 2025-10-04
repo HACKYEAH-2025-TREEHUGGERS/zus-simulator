@@ -1,18 +1,21 @@
 import { useRef } from 'react'
 import { useLocale, useNumberField } from 'react-aria'
 import { useNumberFieldState } from 'react-stately'
+import { HelpTooltip } from './tooltip'
 import type { AriaNumberFieldProps } from 'react-aria'
 import { cn } from '@/helpers/cn'
 
 type TextInputProps = {
   className?: string
   suffix?: string
+  tooltip?: string
 } & AriaNumberFieldProps
 
 export const NumberInput = ({
   className,
   suffix,
   value,
+  tooltip,
   ...props
 }: TextInputProps) => {
   const { locale } = useLocale()
@@ -29,8 +32,10 @@ export const NumberInput = ({
 
   return (
     <div className={cn('flex flex-col', className)}>
-      <label {...labelProps} className="mb-2">
+      <label {...labelProps} className="mb-2 flex items-center gap-1">
         {props.label}
+        {props.isRequired ? <span className="text-warning">*</span> : null}
+        {tooltip && <HelpTooltip text={tooltip} />}
       </label>
       <div className="relative">
         <input

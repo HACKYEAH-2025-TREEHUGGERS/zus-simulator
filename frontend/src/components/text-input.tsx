@@ -1,14 +1,21 @@
 import { useRef } from 'react'
 import { useTextField } from 'react-aria'
+import { HelpTooltip } from './tooltip'
 import type { AriaTextFieldProps } from 'react-aria'
 import { cn } from '@/helpers/cn'
 
 type TextInputProps = {
   className?: string
   suffix?: string
+  tooltip?: string
 } & AriaTextFieldProps
 
-export const TextInput = ({ className, suffix, ...props }: TextInputProps) => {
+export const TextInput = ({
+  className,
+  suffix,
+  tooltip,
+  ...props
+}: TextInputProps) => {
   const ref = useRef(null)
   const {
     labelProps,
@@ -21,8 +28,10 @@ export const TextInput = ({ className, suffix, ...props }: TextInputProps) => {
 
   return (
     <div className={cn('flex flex-col', className)}>
-      <label {...labelProps} className="mb-2">
+      <label {...labelProps} className="mb-2 flex items-center gap-1">
         {props.label}
+        {props.isRequired ? <span className="text-warning">*</span> : null}
+        {tooltip && <HelpTooltip text={tooltip} />}
       </label>
       <div className="relative">
         <input

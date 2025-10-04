@@ -31,6 +31,7 @@ export function Step1() {
         formatOptions={{
           maximumFractionDigits: 2,
         }}
+        isRequired
       />
 
       <Button

@@ -4,7 +4,9 @@
       "step": "Krok",
       "common": {
         "continue": "Dalej",
-        "back": "Cofnij"
+        "back": "Cofnij",
+        "male": "Mężczyzna",
+        "female": "Kobieta"
       },
       "step1": {
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
@@ -21,7 +23,8 @@
         "workEndDate": "Planowany rok zakończenia aktywności zawodowej",
         "zusFunds": "Wysokość zgromadzonych środków na koncie i subkoncie ZUS",
         "includeSickLeave": "Uwzględniaj możliwość zwolnień lekarskich",
-        "programMyRetirement": "Zaprognozuj moją przyszłą emeryturę"
+        "programMyRetirement": "Zaprognozuj moją przyszłą emeryturę",
+        "tooltipWorkStartDate": "Rok rozpoczęcia pracy i zakończenia pracy odnosi się do stycznia"
       }
     }
   },
