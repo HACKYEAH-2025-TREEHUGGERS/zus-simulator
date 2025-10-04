@@ -11,6 +11,7 @@ export const calculateRetirementSchema = z.object({
   }),
   estimatedRetirementAge: z.number(),
   zusFunds: z.number().optional(),
+  initialCapital: z.number().optional(),
   includeSickLeave: z.boolean().default(false),
 });
 
