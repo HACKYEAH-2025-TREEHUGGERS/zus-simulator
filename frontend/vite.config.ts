@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import optimizeLocales from '@react-aria/optimize-locales-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +11,12 @@ export default defineConfig({
     tanstackRouter({ autoCodeSplitting: true }),
     viteReact(),
     tailwindcss(),
+    {
+      ...optimizeLocales.vite({
+        locales: ['pl-PL', 'en-US'],
+      }),
+      enforce: 'pre',
+    },
   ],
   resolve: {
     alias: {
