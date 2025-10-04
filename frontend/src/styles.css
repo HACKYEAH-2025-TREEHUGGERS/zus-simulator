@@ -24,4 +24,6 @@ code {
   --color-darkBlue: rgb(0, 65, 110);
   --color-warning: rgb(240, 94, 94);
   --color-black: rgb(0, 0, 0);
+
+  --color-input: rgb(237, 238, 241);
 }

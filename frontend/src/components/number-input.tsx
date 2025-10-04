@@ -1,23 +1,31 @@
 import { useRef } from 'react'
-import { useTextField } from 'react-aria'
-import type { AriaTextFieldProps } from 'react-aria'
+import { useLocale, useNumberField } from 'react-aria'
+import { useNumberFieldState } from 'react-stately'
+import type { AriaNumberFieldProps } from 'react-aria'
 import { cn } from '@/helpers/cn'
 
 type TextInputProps = {
   className?: string
   suffix?: string
-} & AriaTextFieldProps
+} & AriaNumberFieldProps
 
-export const TextInput = ({ className, suffix, ...props }: TextInputProps) => {
+export const NumberInput = ({
+  className,
+  suffix,
+  value,
+  ...props
+}: TextInputProps) => {
+  const { locale } = useLocale()
+  const state = useNumberFieldState({ ...props, locale })
   const ref = useRef(null)
   const {
     labelProps,
     inputProps,
     descriptionProps,
-    errorMessageProps,
     isInvalid,
+    errorMessageProps,
     validationErrors,
-  } = useTextField(props, ref)
+  } = useNumberField(props, state, ref)
 
   return (
     <div className={cn('flex flex-col', className)}>

@@ -2,9 +2,26 @@
   "pl": {
     "translation": {
       "step": "Krok",
+      "common": {
+        "continue": "Dalej",
+        "back": "Cofnij"
+      },
       "step1": {
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
-        "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości"
+        "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości",
+        "retirementQuestion": "Jaką emeryturę chciałbyś otrzymywać miesięcznie?"
+      },
+      "step2": {
+        "fillForm": "Wypełnij formularz",
+        "seeYourForecast": "Poznaj prognozę swojej przyszłej emerytury",
+        "age": "Wiek",
+        "gender": "Płeć",
+        "salaryGross": "Wysokość wynagrodzenia brutto",
+        "workStartYear": "Rok rozpoczęcia pracy",
+        "workEndDate": "Planowany rok zakończenia aktywności zawodowej",
+        "zusFunds": "Wysokość zgromadzonych środków na koncie i subkoncie ZUS",
+        "includeSickLeave": "Uwzględniaj możliwość zwolnień lekarskich",
+        "programMyRetirement": "Zaprognozuj moją przyszłą emeryturę"
       }
     }
   },

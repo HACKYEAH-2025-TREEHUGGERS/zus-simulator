@@ -2,11 +2,13 @@ import { Link, useLayoutEffect } from '@tanstack/react-router'
 import { Breadcrumb, Breadcrumbs } from 'react-aria-components'
 import { useRef, useState } from 'react'
 import { useWindowSize } from '@uidotdev/usehooks'
+import { Check } from 'lucide-react'
 import { cn } from '@/helpers/cn'
 
 type Step = {
   to: string
   search: Record<string, string | number>
+  completed?: boolean
 }
 
 type StepperProps = {
@@ -48,7 +50,9 @@ export const Stepper = ({ steps, currentStep, className }: StepperProps) => {
                 />
               )}
               {index < currentStep ? (
-                <div className="size-6 bg-primary rounded-full" />
+                <div className="size-6 bg-primary rounded-full">
+                  {step.completed ? <Check className="text-white" /> : null}
+                </div>
               ) : (
                 <div className="flex items-center justify-center font-semibold text-sm size-6 bg-background rounded-full">
                   {index + 1}

@@ -5,6 +5,9 @@ import { z } from 'zod'
 
 export const retirementFormSchema = z.object({
   step: z.number().min(1).max(3),
+  expectedRetirement: z
+    .number()
+    .min(0, { message: 'Expected retirement must be non-negative' }),
   gender: z.enum(['male', 'female']),
   date: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Invalid date format',
@@ -34,6 +37,7 @@ export const RetirementFormProvider = ({
     resolver: zodResolver(retirementFormSchema),
     defaultValues: {
       step: 1,
+      expectedRetirement: 0,
       gender: 'male',
       date: new Date().toString(),
       grossSalary: 0,
@@ -43,6 +47,7 @@ export const RetirementFormProvider = ({
       initialCapital: 0,
       includeSickLeave: false,
     },
+    mode: 'all',
   })
 
   return (

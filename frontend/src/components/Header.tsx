@@ -1,45 +1,26 @@
 import { Link } from '@tanstack/react-router'
-
 import { useState } from 'react'
-import {
-  ChevronDown,
-  ChevronRight,
-  Globe,
-  Home,
-  Layers,
-  Menu,
-  X,
-} from 'lucide-react'
+import { Home, Menu, X } from 'lucide-react'
+import ZusNavbar from '@/assets/img/zus-navbar.jpg'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [groupedExpanded, setGroupedExpanded] = useState<
-    Record<string, boolean>
-  >({})
 
   return (
     <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
+      <header className="flex items-center relative">
         <button
           onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+          className="absolute p-2 hover:bg-primary rounded-lg transition-colors my-auto left-10"
           aria-label="Open menu"
         >
           <Menu size={24} />
         </button>
-        <h1 className="ml-4 text-xl font-semibold">
-          <Link to="/">
-            <img
-              src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
-              className="h-10"
-            />
-          </Link>
-        </h1>
+        <img src={ZusNavbar} className="w-full" />
       </header>
 
       <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
+        className={`fixed top-0 left-0 h-full w-80 bg-white text-primary shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
