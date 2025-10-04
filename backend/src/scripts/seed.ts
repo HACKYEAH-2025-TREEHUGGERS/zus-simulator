@@ -1,14 +1,47 @@
 import { readdir, readFile } from 'fs/promises';
-import { join } from 'path';
+import { join, resolve } from 'path';
+import { existsSync } from 'fs';
 import postgres from 'postgres';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '../.env' });
+// Try to load .env from multiple possible locations
+const possibleEnvPaths = [
+  resolve(__dirname, '../../../.env'), // From src/scripts to project root
+  resolve(__dirname, '../../.env'), // From src to backend parent
+  resolve(process.cwd(), '../.env'), // From current working dir
+  resolve(process.cwd(), '.env'), // Current working dir
+];
 
-const DATABASE_URL = process.env.DATABASE_URL;
+for (const envPath of possibleEnvPaths) {
+  if (existsSync(envPath)) {
+    console.log(`📄 Loading environment from: ${envPath}`);
+    dotenv.config({ path: envPath });
+    break;
+  }
+}
+
+// Get DATABASE_URL or construct it from individual variables
+let DATABASE_URL = process.env.DATABASE_URL;
+
+if (!DATABASE_URL) {
+  // Try to construct from individual PostgreSQL variables
+  const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
+
+  if (POSTGRES_USER && POSTGRES_PASSWORD && POSTGRES_DB) {
+    const port = POSTGRES_PORT || '5432';
+    const host = process.env.POSTGRES_HOST || 'localhost';
+    DATABASE_URL = `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${host}:${port}/${POSTGRES_DB}`;
+    console.log('🔧 Constructed DATABASE_URL from environment variables');
+  }
+}
 
 if (!DATABASE_URL) {
   console.error('❌ DATABASE_URL is not defined in environment variables');
+  console.error(
+    '💡 Either set DATABASE_URL directly, or provide POSTGRES_USER, POSTGRES_PASSWORD, and POSTGRES_DB'
+  );
+  console.error('💡 Checked paths:');
+  possibleEnvPaths.forEach(p => console.error(`   - ${p} ${existsSync(p) ? '✓' : '✗'}`));
   process.exit(1);
 }
 
@@ -20,7 +53,7 @@ interface SeedResult {
 
 async function runSeeds() {
   const sql = postgres(DATABASE_URL!);
-  const seedsDir = join(__dirname, '../drizzle/seeds');
+  const seedsDir = join(__dirname, '../../drizzle/seeds');
 
   console.log('🌱 Starting database seeding...\n');
 
@@ -89,7 +122,7 @@ async function runSeeds() {
 // Run specific seed file if provided as argument
 async function runSpecificSeed(filename: string) {
   const sql = postgres(DATABASE_URL!);
-  const seedsDir = join(__dirname, '../drizzle/seeds');
+  const seedsDir = join(__dirname, '../../drizzle/seeds');
   const filePath = join(seedsDir, filename);
 
   console.log(`🌱 Running specific seed: ${filename}\n`);
