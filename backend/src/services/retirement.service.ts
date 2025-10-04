@@ -27,7 +27,7 @@ export class RetirementService {
       return -1;
     }
 
-    await db.select().from();
+    // await db.select().from();
 
     return 0;
   }

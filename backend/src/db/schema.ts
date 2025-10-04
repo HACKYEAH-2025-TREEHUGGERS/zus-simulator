@@ -13,6 +13,12 @@ import {
 } from 'drizzle-orm/pg-core';
 
 // Example table schema - you can modify or add more tables as needed
+export const funFacts = pgTable('fun_facts', {
+  id: serial('id').primaryKey(),
+  fact: text('fact').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
