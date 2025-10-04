@@ -2,7 +2,7 @@ import {
   pgTable,
   serial,
   text,
-  timestamp,
+  timestamp, integer, real,
   integer,
   decimal,
   boolean,
@@ -72,30 +72,19 @@ export const avgSickLeaveDuration = pgTable(
 );
 export const retirementProjectionParams = pgTable('retirement_projection_params', {
   year: integer('year').primaryKey(),
-  avg_annual_cpi: numeric('avg_annual_cpi', { precision: 7, scale: 5 }).notNull(),
-  real_wage_growth_rate: numeric('real_wage_growth_rate', { precision: 7, scale: 5 }).notNull(),
-  avg_monthly_wage: numeric('avg_monthly_wage', { precision: 10, scale: 2 }).notNull(),
-  employee_contrib_rate: numeric('employee_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
-  employer_contrib_rate: numeric('employer_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
-  ofe_contrib_rate: numeric('ofe_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
-  subaccount_contrib_rate: numeric('subaccount_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
-  total_ofe_subaccount_rate: numeric('total_ofe_subaccount_rate', {
-    precision: 5,
-    scale: 2,
-  }).notNull(), // %
-  account_contrib_reval_rate: numeric('account_contrib_reval_rate', {
-    precision: 6,
-    scale: 4,
-  }).notNull(), // Wskaźnik (%)
-  subaccount_contrib_reval_rate: numeric('subaccount_contrib_reval_rate', {
-    precision: 6,
-    scale: 4,
-  }).notNull(), // Wskaźnik (%)
-  max_contrib_base_limit_percent: numeric('max_contrib_base_limit_percent', {
-    precision: 5,
-    scale: 2,
-  }).notNull(), // %
-  min_pension_amount: numeric('min_pension_amount', { precision: 8, scale: 2 }), // W PLN (dozwolone NULL)
+  averageAnnualCpiIndex: real('average_annual_cpi_index').notNull(), // średnioroczny wskaźnik cen towarów i usług konsumpcyjnych ogółem
+  realWageGrowthIndex: real('real_wage_growth_index').notNull(), // wskaźnik realnego wzrostu przeciętnego wynagrodzenia
+  averageMonthlyWage: real('average_monthly_wage').notNull(), // przeciętne miesięczne wynagrodzenie w gospodarce narodowej
+  employeePensionContributionRate: real('employee_pension_contribution_rate').notNull(), // stopa składki na ubezpieczenie emerytalne finansowanej przez pracownika
+  employerPensionContributionRate: real('employer_pension_contribution_rate').notNull(), // stopa składki na ubezpieczenie emerytalne finansowanej przez pracodawcę
+  ofeContributionRate: real('ofe_contribution_rate').notNull(), // stopa składki na ubezpieczenie emerytalne odprowadzana do OFE
+  subaccountContributionRate: real('subaccount_contribution_rate').notNull(), // stopa składki na ubezpieczenie emerytalne odprowadzana na subkonto
+  totalOfeSubaccountRate: real('total_ofe_subaccount_rate').notNull(), // łączna stopa składki odprowadzanej do OFE i składki ewidencjonowanej na subkoncie
+  accountValorizationIndex: real('account_valorization_index').notNull(), // wskaźnik waloryzacji składek zewidencjonowanych na koncie oraz kapitału początkowego za dany rok
+  subaccountValorizationIndex: real('subaccount_valorization_index').notNull(), // wskaźnik waloryzacji składek zewidencjonowanych na subkoncie za dany rok
+  contributionBaseUpperLimit: real('contribution_base_upper_limit').notNull(), // ograniczenie górne miesięcznej podstawy wymiaru składek na ubezpieczenie emerytalne w danym roku, wyrażone w procencie przeciętnego miesięcznego wynagrodzenia
+  minimumPensionAmount: real('minimum_pension_amount').notNull(), // kwota najniższej emerytury obowiązująca od marca danego roku do lutego następnego roku
+  averageYear: real('average_year').notNull(), // średnia rok
 });
 
 // Typy pomocnicze
