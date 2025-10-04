@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-react-aria-components";
+@tailwind utilities;
 
 body {
   @apply m-0;
@@ -13,4 +14,14 @@ body {
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@theme {
+  --color-alert: rgb(255, 179, 79);
+  --color-primary: rgb(0, 153, 63);
+  --color-background: rgb(190, 195, 206);
+  --color-lightBlue: rgb(63, 132, 210);
+  --color-darkBlue: rgb(0, 65, 110);
+  --color-warning: rgb(240, 94, 94);
+  --color-black: rgb(0, 0, 0);
 }
