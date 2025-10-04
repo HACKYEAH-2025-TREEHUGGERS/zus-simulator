@@ -1,0 +1,10 @@
+# Database Seed Files (.gitignore suggestions)
+# 
+# You may want to add these patterns to your .gitignore if you want to:
+# - Keep some seed files private (e.g., production data dumps)
+# - Ignore temporary/local seed files
+#
+# Example patterns:
+# backend/drizzle/seeds/*_local.sql
+# backend/drizzle/seeds/*_temp.sql
+# backend/drizzle/seeds/private_*.sql

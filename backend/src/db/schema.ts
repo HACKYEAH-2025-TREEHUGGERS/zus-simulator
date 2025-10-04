@@ -1,4 +1,15 @@
-import { pgTable, serial, text, timestamp, integer, decimal, boolean } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  integer,
+  decimal,
+  boolean,
+  varchar,
+  numeric,
+  uniqueIndex,
+} from 'drizzle-orm/pg-core';
 
 // Example table schema - you can modify or add more tables as needed
 export const users = pgTable('users', {
@@ -38,3 +49,24 @@ export const retirementData = pgTable('retirement_data', {
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+export const avgSickLeaveDuration = pgTable(
+  'avg_sick_leave_duration',
+  {
+    id: serial('id').primaryKey(),
+    county_name: varchar('county_name', { length: 255 }).notNull(),
+    avg_female_sick_leave_days: numeric('avg_female_sick_leave_days', {
+      precision: 5,
+      scale: 2,
+    }).notNull(),
+    avg_male_sick_leave_days: numeric('avg_male_sick_leave_days', {
+      precision: 5,
+      scale: 2,
+    }).notNull(),
+  },
+  table => {
+    return {
+      nameIndex: uniqueIndex('county_name_idx').on(table.county_name),
+    };
+  }
+);
