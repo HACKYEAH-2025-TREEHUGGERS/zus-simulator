@@ -70,3 +70,34 @@ export const avgSickLeaveDuration = pgTable(
     };
   }
 );
+export const retirementProjectionParams = pgTable('retirement_projection_params', {
+  year: integer('year').primaryKey(),
+  avg_annual_cpi: numeric('avg_annual_cpi', { precision: 7, scale: 5 }).notNull(),
+  real_wage_growth_rate: numeric('real_wage_growth_rate', { precision: 7, scale: 5 }).notNull(),
+  avg_monthly_wage: numeric('avg_monthly_wage', { precision: 10, scale: 2 }).notNull(),
+  employee_contrib_rate: numeric('employee_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
+  employer_contrib_rate: numeric('employer_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
+  ofe_contrib_rate: numeric('ofe_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
+  subaccount_contrib_rate: numeric('subaccount_contrib_rate', { precision: 5, scale: 2 }).notNull(), // %
+  total_ofe_subaccount_rate: numeric('total_ofe_subaccount_rate', {
+    precision: 5,
+    scale: 2,
+  }).notNull(), // %
+  account_contrib_reval_rate: numeric('account_contrib_reval_rate', {
+    precision: 6,
+    scale: 4,
+  }).notNull(), // Wskaźnik (%)
+  subaccount_contrib_reval_rate: numeric('subaccount_contrib_reval_rate', {
+    precision: 6,
+    scale: 4,
+  }).notNull(), // Wskaźnik (%)
+  max_contrib_base_limit_percent: numeric('max_contrib_base_limit_percent', {
+    precision: 5,
+    scale: 2,
+  }).notNull(), // %
+  min_pension_amount: numeric('min_pension_amount', { precision: 8, scale: 2 }), // W PLN (dozwolone NULL)
+});
+
+// Typy pomocnicze
+export type RetirementProjectionParam = typeof retirementProjectionParams.$inferSelect;
+export type NewRetirementProjectionParam = typeof retirementProjectionParams.$inferInsert;
