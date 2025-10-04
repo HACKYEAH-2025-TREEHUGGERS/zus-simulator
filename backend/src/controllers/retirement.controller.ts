@@ -3,13 +3,15 @@ import { retirementService } from '../services';
 import { calculateRetirementSchema } from '../schemas';
 
 class RetirementController {
-  calculateRetirement = async (req: Request, res: Response) => {
+  public async calculateRetirement(req: Request, res: Response): Promise<void> {
     const input = calculateRetirementSchema.parse(req.body);
 
-    res.json({
-      date: retirementService.calculateRetirementDate(input.gender, input.date),
-    });
-  };
+    const result = {
+      expectedRetirementAge: retirementService.getExpectedRetirementDate(input.gender, input.date),
+    };
+
+    res.json(result);
+  }
 }
 
 export const retirementController = new RetirementController();
