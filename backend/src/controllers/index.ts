@@ -1,1 +1,1 @@
-export { pensionController } from './pension.controller';
+export { retirementController } from './retirement.controller';

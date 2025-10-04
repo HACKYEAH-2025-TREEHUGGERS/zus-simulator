@@ -15,6 +15,16 @@ export default [
         sourceType: 'module',
         project: './tsconfig.json',
       },
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'writable',
+      },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
@@ -30,9 +40,10 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       'no-console': 'off',
+      'no-undef': 'off',
     },
   },
   {
-    ignores: ['node_modules/', 'dist/', 'drizzle/', '*.js'],
+    ignores: ['node_modules/', 'dist/', 'drizzle/', '*.js', 'drizzle.config.ts'],
   },
 ];
