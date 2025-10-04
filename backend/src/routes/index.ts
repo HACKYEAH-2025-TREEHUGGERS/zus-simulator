@@ -1,11 +1,9 @@
 import { Router } from 'express';
-import pensionRoutes from './pension.routes';
-import healthRoutes from './health.routes';
+import retirementRoutes from './retirement.routes';
 
 const router = Router();
 
 // Mount route modules
-router.use('/pension', pensionRoutes);
-router.use('/health', healthRoutes);
+router.use('/retirement', retirementRoutes);
 
 export default router;

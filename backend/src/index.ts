@@ -29,12 +29,8 @@ app.use((req, res, next) => {
 app.get('/', (req: Request, res: Response) => {
   res.json({
     success: true,
-    message: 'Pension Calculator API',
+    message: 'Hackaton API',
     version: '1.0.0',
-    endpoints: {
-      health: '/api/health',
-      pension: '/api/pension',
-    },
   });
 });
 
@@ -54,5 +50,4 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`⚡️ Server is running at http://localhost:${port}`);
-  console.log(`📊 Pension calculation endpoints available at /api/pension`);
 });
