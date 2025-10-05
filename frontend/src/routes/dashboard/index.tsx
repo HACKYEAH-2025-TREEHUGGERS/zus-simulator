@@ -13,17 +13,26 @@ export const Route = createFileRoute('/dashboard/')({
 function RouteComponent() {
   const { t } = useTranslation()
 
+  const handlePrint = () => {
+    window.print()
+  }
+
   return (
-    <ScreenContainer className="flex flex-col gap-2 max-w-[950px] w-full mx-auto">
-      <Header className="relative w-full h-[50px]">
+    <ScreenContainer className="print-full-width mx-auto flex w-full max-w-[950px] flex-col gap-2">
+      <Header className="relative h-[50px] w-full">
         <Text className="text-xl font-semibold">{t('dashboard.title')}</Text>
-        <Button className="absolute inset-x-0 top-0 text-nowrap w-fit mx-auto">
+        <Button
+          className="print-hide-button absolute inset-x-0 top-0 mx-auto w-fit text-nowrap"
+          onPress={handlePrint}
+        >
           {t('dashboard.downloadReport')}
         </Button>
       </Header>
-      <div className="flex flex-col lg:flex-row gap-4">
+      <div className="flex flex-col gap-4 lg:flex-row">
         <DashboardCharts />
-        <CompensationHistory />
+        <div className="print-hide">
+          <CompensationHistory />
+        </div>
       </div>
     </ScreenContainer>
   )

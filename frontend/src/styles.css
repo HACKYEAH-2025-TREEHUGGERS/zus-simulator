@@ -55,3 +55,43 @@ code {
     }
   }
 }
+
+/* Print styles */
+@media print {
+  /* Hide header image and navigation */
+  header {
+    display: none !important;
+  }
+
+  /* Hide the compensation history right pane */
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Optimize main content for printing */
+  .print-full-width {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Hide download button when printing */
+  .print-hide-button {
+    display: none !important;
+  }
+
+  /* Ensure proper page breaks */
+  .print-page-break {
+    page-break-inside: avoid;
+  }
+
+  /* Remove unnecessary margins and padding for print */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Ensure charts render properly */
+  canvas {
+    max-width: 100% !important;
+  }
+}
