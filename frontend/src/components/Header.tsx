@@ -2,7 +2,9 @@ import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Compass, Home, Menu, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Label } from 'react-aria-components'
 import ZusNavbar from '@/assets/img/zus-navbar.jpg'
+import i18n from '@/i18n'
 
 export default function Header() {
   const { t } = useTranslation()
@@ -10,7 +12,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex items-center relative">
+      <header className="flex items-center relative min-h-[60px]">
         <button
           onClick={() => setIsOpen(true)}
           className="absolute p-2 hover:bg-primary hover:text-white rounded-lg transition-colors my-auto left-10"
@@ -18,7 +20,26 @@ export default function Header() {
         >
           <Menu size={24} />
         </button>
-        <img src={ZusNavbar} className="w-full" />
+        <img
+          src={ZusNavbar}
+          className="w-full hidden lg:block"
+          alt="zus-navbar"
+        />
+        <div className="absolute right-10">
+          <Label htmlFor="language-select" className="sr-only">
+            Language
+          </Label>
+          <select
+            id="language-select"
+            className="py-2 pl-2 pr-2 rounded-lg border border-none bg-input text-black font-bold"
+            value={i18n.language}
+            onChange={(e) => i18n.changeLanguage(e.target.value)}
+          >
+            <option value="pl">🇵🇱 PL</option>
+            <option value="en">🇬🇧 EN</option>
+            <option value="ua">🇺🇦 UA</option>
+          </select>
+        </div>
       </header>
 
       <aside
@@ -43,7 +64,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary hover:text-white transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-background hover:bg-background transition-colors mb-2',
+                'flex items-center gap-3 p-3 rounded-lg bg-input hover:bg-input transition-colors mb-2',
             }}
           >
             <Compass size={20} />
@@ -55,7 +76,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary hover:text-white transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-background hover:bg-background transition-colors mb-2',
+                'flex items-center gap-3 p-3 rounded-lg bg-input hover:bg-input transition-colors mb-2',
             }}
           >
             <Home size={20} />

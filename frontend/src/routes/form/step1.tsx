@@ -15,12 +15,12 @@ export function Step1() {
   const expectedRetirement = form.watch('wantedRetirement') || 0
 
   const getCategory = (value: number): string => {
-    if (value < 1780) return 'Poniżej minimalnej'
-    if (value >= 1780 && value < 2000) return 'Minimalna'
-    if (value >= 2000 && value < 3500) return 'Poniżej średniej'
-    if (value >= 3500 && value < 4000) return 'Na poziomie średniej'
-    if (value >= 4000 && value < 6000) return 'Powyżej średniej'
-    return 'Wysokie'
+    if (value < 1780) return t('step1.category.below_min')
+    if (value >= 1780 && value < 2000) return t('step1.category.minimal')
+    if (value >= 2000 && value < 3500) return t('step1.category.below_avg')
+    if (value >= 3500 && value < 4000) return t('step1.category.at_avg')
+    if (value >= 4000 && value < 6000) return t('step1.category.above_avg')
+    return t('step1.category.high')
   }
 
   const currentCategory = getCategory(expectedRetirement)
@@ -39,12 +39,12 @@ export function Step1() {
       return colors[0]
     }
     const categories = [
-      'Poniżej minimalnej',
-      'Minimalna',
-      'Poniżej średniej',
-      'Na poziomie średniej',
-      'Powyżej średniej',
-      'Wysokie',
+      t('step1.category.below_min'),
+      t('step1.category.minimal'),
+      t('step1.category.below_avg'),
+      t('step1.category.at_avg'),
+      t('step1.category.above_avg'),
+      t('step1.category.high'),
     ]
     const index = categories.indexOf(categoryName)
     return colors[Math.min(index + 1, colors.length - 1)]
@@ -55,12 +55,18 @@ export function Step1() {
       trigger: 'item',
       formatter: (params: any) => {
         const amounts: Record<string, string> = {
-          'Poniżej minimalnej': '< 1780 PLN',
-          Minimalna: '~1780 PLN',
-          'Poniżej średniej': '1780 - 3500 PLN',
-          'Na poziomie średniej': '~3500 PLN',
-          'Powyżej średniej': '3500 - 6000 PLN',
-          Wysokie: '> 6000 PLN',
+          [t('step1.category.below_min')]: t(
+            'step1.category.amounts.below_min',
+          ),
+          [t('step1.category.minimal')]: t('step1.category.amounts.minimal'),
+          [t('step1.category.below_avg')]: t(
+            'step1.category.amounts.below_avg',
+          ),
+          [t('step1.category.at_avg')]: t('step1.category.amounts.at_avg'),
+          [t('step1.category.above_avg')]: t(
+            'step1.category.amounts.above_avg',
+          ),
+          [t('step1.category.high')]: t('step1.category.amounts.high'),
         }
         return `${params.name}<br/>${amounts[params.name]}<br/>${params.percent}%`
       },
@@ -80,33 +86,43 @@ export function Step1() {
         data: [
           {
             value: 30,
-            name: 'Poniżej minimalnej',
-            itemStyle: { color: getColorForCategory('Poniżej minimalnej') },
+            name: t('step1.category.below_min'),
+            itemStyle: {
+              color: getColorForCategory(t('step1.category.below_min')),
+            },
           },
           {
             value: 180,
-            name: 'Minimalna',
-            itemStyle: { color: getColorForCategory('Minimalna') },
+            name: t('step1.category.minimal'),
+            itemStyle: {
+              color: getColorForCategory(t('step1.category.minimal')),
+            },
           },
           {
             value: 70,
-            name: 'Wysokie',
-            itemStyle: { color: getColorForCategory('Wysokie') },
+            name: t('step1.category.high'),
+            itemStyle: { color: getColorForCategory(t('step1.category.high')) },
           },
           {
             value: 140,
-            name: 'Powyżej średniej',
-            itemStyle: { color: getColorForCategory('Powyżej średniej') },
+            name: t('step1.category.above_avg'),
+            itemStyle: {
+              color: getColorForCategory(t('step1.category.above_avg')),
+            },
           },
           {
             value: 480,
-            name: 'Poniżej średniej',
-            itemStyle: { color: getColorForCategory('Poniżej średniej') },
+            name: t('step1.category.below_avg'),
+            itemStyle: {
+              color: getColorForCategory(t('step1.category.below_avg')),
+            },
           },
           {
             value: 170,
-            name: 'Na poziomie średniej',
-            itemStyle: { color: getColorForCategory('Na poziomie średniej') },
+            name: t('step1.category.at_avg'),
+            itemStyle: {
+              color: getColorForCategory(t('step1.category.at_avg')),
+            },
           },
         ],
 

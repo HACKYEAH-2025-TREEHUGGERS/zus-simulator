@@ -1,6 +1,4 @@
 import { Outlet, createRootRoute, useNavigate } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import { I18nProvider, useLocale } from 'react-aria-components'
 import Header from '../components/Header'
 import { RetirementFormProvider } from './form/-components/retirement-form-provider'
@@ -15,17 +13,6 @@ export const Route = createRootRoute({
           <div lang={locale} dir={direction}>
             <Header />
             <Outlet />
-            <TanStackDevtools
-              config={{
-                position: 'bottom-right',
-              }}
-              plugins={[
-                {
-                  name: 'Tanstack Router',
-                  render: <TanStackRouterDevtoolsPanel />,
-                },
-              ]}
-            />
           </div>
         </RetirementFormProvider>
       </I18nProvider>
