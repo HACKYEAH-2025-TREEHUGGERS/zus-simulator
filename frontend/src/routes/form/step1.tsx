@@ -3,6 +3,7 @@ import { Text } from 'react-aria-components'
 import { useNavigate } from '@tanstack/react-router'
 import ReactEcharts from 'echarts-for-react'
 import { useRetirementForm } from './-components/retirement-form-provider'
+import { FunFactFooter } from './-components/fun-fact-footer'
 import { NumberInput } from '@/components/number-input'
 import { Button } from '@/components/button'
 
@@ -13,17 +14,12 @@ export function Step1() {
   const option = {
     color: ['#2E8B57', '#3CB371', '#66CDAA', '#90EE90', '#B0E0E6'],
 
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b}: {c} ({d}%)',
-    },
-
     series: [
       {
         name: 'Access Source',
         type: 'pie',
         radius: ['40%', '70%'],
-        center: ['50%', '60%'], // Chart position
+        center: ['50%', '60%'],
         itemStyle: {
           borderRadius: 0,
           borderColor: '#fff',
@@ -39,13 +35,11 @@ export function Step1() {
           { value: 532, name: 'Na poziomie średniej' },
         ],
 
-        // Optional: Label configuration
         label: {
           show: true,
-          formatter: '{b}: {d}%', // Show name and percentage
+          formatter: '{b}: {d}%',
         },
 
-        // Optional: Emphasis style when hovering
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
@@ -92,6 +86,8 @@ export function Step1() {
       <Text className="mt-8 text-center text-xl font-semibold text-black">
         {t('step1.didYouKnow')}
       </Text>
+
+      <FunFactFooter />
 
       <Button
         onClick={() => {

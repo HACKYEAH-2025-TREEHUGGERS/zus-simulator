@@ -5,15 +5,27 @@ interface FunFactResponse {
 }
 
 export function FunFactFooter() {
-  async function fetchFunFact() {
-    let data = ''
-    const response = await fetch('http://localhost:3000/api/fun-facts'
-      
-    if (!response.ok) {
-      throw new Error('Failed to fetch fun fact')
-    }
-    return response.json()
-  }
+  const { data, isLoading, error } = useQuery<FunFactResponse>({
+    queryKey: ['fun-fact'],
+    queryFn: async () => {
+      const response = await fetch('http://localhost:3000/api/fun-facts')
+      if (!response.ok) throw new Error('Failed to fetch fun fact')
+      return response.json()
+    },
+  })
 
-  return <div className="text-xl font-semibold text-black">{data.fact}</div>
+  if (isLoading)
+    return (
+      <div className="text-center text-base text-black/80">
+        Loading fun fact...
+      </div>
+    )
+  if (error)
+    return (
+      <div className="text-center text-base text-black/80">
+        Failed to load fun fact
+      </div>
+    )
+
+  return <div className="text-center text-base text-black/80">{data?.fact}</div>
 }
