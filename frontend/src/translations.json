@@ -30,6 +30,12 @@
         "tooltipSickLeave": "Pracujący w Polsce przebywają średnio na zwolnieniach lekarskich około 34 dni rocznie. Zwolnienie lekarskie obniża świadczenie do 80% podstawy wynagrodzenia.",
         "initialCapital": "Kapitał początkowy",
         "tooltipInitialCapital": "Kapitał początkowy ZUS to odtworzona kwota składek na ubezpieczenie społeczne opłaconych przed 1 stycznia 1999 r"
+      },
+      "step3": {
+        "summary": "Podsumowanie",
+        "forecastMessage": "Twoja prognozowana wysokość emerytury",
+        "newSimulation": "Wykonaj nową symulację",
+        "goToDashboard": "Przejdź do Dashboardu"
       }
     }
   },

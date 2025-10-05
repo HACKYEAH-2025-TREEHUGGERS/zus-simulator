@@ -30,6 +30,8 @@ export function Step2() {
   }
 
   const isInvalid = useMemo(() => {
+    if (!form.getValues('gender')?.length) return true
+
     return Number(form.watch('workStartDate')) > 1999
       ? Object.entries(form.getValues())
           .filter(([key]) => key !== 'initialCapital')
