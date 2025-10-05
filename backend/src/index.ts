@@ -7,11 +7,9 @@ const port = process.env.PORT || 3000;
 
 const app: Express = express();
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS (if needed for frontend)
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -25,7 +23,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Root endpoint
 app.get('/', (req: Request, res: Response) => {
   res.json({
     success: true,
@@ -34,10 +31,8 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
-// API Routes
 app.use('/api', routes);
 
-// 404 handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
@@ -45,7 +40,6 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// Error handling middleware (must be last)
 app.use(errorHandler);
 
 app.listen(port, () => {
