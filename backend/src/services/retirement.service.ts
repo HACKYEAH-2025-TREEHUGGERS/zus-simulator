@@ -2,7 +2,8 @@ import { addYears, isBefore, parse, setDate, setMonth, subYears } from 'date-fns
 import { FEMALE_RETIREMENT_AGE, MALE_RETIREMENT_AGE } from '../constants';
 import { CalculateRetirementInput } from '../schemas';
 import { db } from '../db';
-import { retirementProjectionParams } from '../db/schema';
+import { retirementProjectionParams, averageLifetime } from '../db/schema';
+import { eq } from 'drizzle-orm';
 
 type Gender = 'male' | 'female';
 
@@ -28,7 +29,6 @@ export class RetirementService {
     }
 
     const projectionParams = await db.select().from(retirementProjectionParams);
-    const averageLifetime = await db.select().from(averageLifetime);
 
     const contributionPercentage = 0.1952;
     const currentYear = new Date().getFullYear();
@@ -52,9 +52,13 @@ export class RetirementService {
     }
 
     const ageOnRetirement = payload.expectedRetirementYear - (today.getFullYear() - payload.age);
+    const avgLife = await db
+      .select()
+      .from(averageLifetime)
+      .where(eq(averageLifetime.age, ageOnRetirement));
 
-    console.log(currentAccountBalance);
-    return currentAccountBalance / ageOnRetirement / 12;
+    const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
+    return currentAccountBalance / expectedLifetime;
   }
 }
 

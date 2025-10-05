@@ -8,7 +8,7 @@ class ExportController {
 
     const data: RetirementCalculationResult = {
       input,
-      expectedRetirementAge: input.estimatedRetirementAge,
+      expectedRetirementAge: input.expectedRetirementYear,
     };
 
     const pdfBuffer = await exportService.generatePDF(data);
@@ -24,7 +24,7 @@ class ExportController {
 
     const data: RetirementCalculationResult = {
       input,
-      expectedRetirementAge: input.estimatedRetirementAge,
+      expectedRetirementAge: input.expectedRetirementYear,
     };
 
     const excelBuffer = await exportService.generateExcel(data);

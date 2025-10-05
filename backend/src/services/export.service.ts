@@ -53,7 +53,7 @@ export class ExportService {
         doc.text(`Wiek: ${data.input.age} lat`);
         doc.text(`Wynagrodzenie brutto: ${data.input.grossSalary.toFixed(2)} PLN`);
         doc.text(`Data rozpoczęcia pracy: ${data.input.workStartDate}`);
-        doc.text(`Szacowany wiek emerytalny: ${data.input.estimatedRetirementAge} lat`);
+        doc.text(`Szacowany wiek emerytalny: ${data.input.expectedRetirementYear} lat`);
 
         if (data.input.zusFunds) {
           doc.text(`Fundusze ZUS: ${data.input.zusFunds.toFixed(2)} PLN`);
@@ -148,7 +148,7 @@ export class ExportService {
     worksheet.addRow(['Wiek', `${data.input.age} lat`]);
     worksheet.addRow(['Wynagrodzenie brutto', `${data.input.grossSalary.toFixed(2)} PLN`]);
     worksheet.addRow(['Data rozpoczęcia pracy', data.input.workStartDate]);
-    worksheet.addRow(['Szacowany wiek emerytalny', `${data.input.estimatedRetirementAge} lat`]);
+    worksheet.addRow(['Szacowany wiek emerytalny', `${data.input.expectedRetirementYear} lat`]);
 
     if (data.input.zusFunds) {
       worksheet.addRow(['Fundusze ZUS', `${data.input.zusFunds.toFixed(2)} PLN`]);
