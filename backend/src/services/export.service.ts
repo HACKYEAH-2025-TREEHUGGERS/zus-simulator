@@ -12,9 +12,6 @@ export interface RetirementCalculationResult {
 }
 
 export class ExportService {
-  /**
-   * Generate a PDF document with retirement calculation results
-   */
   public async generatePDF(data: RetirementCalculationResult): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       try {
@@ -25,12 +22,10 @@ export class ExportService {
         doc.on('end', () => resolve(Buffer.concat(chunks)));
         doc.on('error', reject);
 
-        // Register custom fonts with full Polish character support
         const fontPath = path.join(__dirname, '../../assets/fonts');
         doc.registerFont('DejaVu', path.join(fontPath, 'DejaVuSans.ttf'));
         doc.registerFont('DejaVu-Bold', path.join(fontPath, 'DejaVuSans-Bold.ttf'));
 
-        // Header
         doc
           .fontSize(24)
           .font('DejaVu-Bold')
@@ -45,7 +40,6 @@ export class ExportService {
           })
           .moveDown(2);
 
-        // Input Data Section
         doc
           .fontSize(16)
           .font('DejaVu-Bold')
@@ -59,7 +53,7 @@ export class ExportService {
         doc.text(`Wiek: ${data.input.age} lat`);
         doc.text(`Wynagrodzenie brutto: ${data.input.grossSalary.toFixed(2)} PLN`);
         doc.text(`Data rozpoczęcia pracy: ${data.input.workStartDate}`);
-        doc.text(`Szacowany wiek emerytalny: ${data.input.estimatedRetirementAge} lat`);
+        doc.text(`Szacowany wiek emerytalny: ${data.input.expectedRetirementYear} lat`);
 
         if (data.input.zusFunds) {
           doc.text(`Fundusze ZUS: ${data.input.zusFunds.toFixed(2)} PLN`);
@@ -72,7 +66,6 @@ export class ExportService {
         doc.text(`Uwzględnij zwolnienia lekarskie: ${data.input.includeSickLeave ? 'Tak' : 'Nie'}`);
         doc.moveDown(2);
 
-        // Results Section
         doc
           .fontSize(16)
           .font('DejaVu-Bold')
@@ -99,7 +92,6 @@ export class ExportService {
           doc.text(`Łączne składki: ${data.totalContributions.toFixed(2)} PLN`);
         }
 
-        // Footer
         doc
           .moveDown(3)
           .fontSize(8)
@@ -116,21 +108,15 @@ export class ExportService {
     });
   }
 
-  /**
-   * Generate an Excel file with retirement calculation results
-   */
   public async generateExcel(data: RetirementCalculationResult): Promise<Buffer> {
     const workbook = new ExcelJS.Workbook();
     workbook.creator = 'System Emerytalny';
     workbook.created = new Date();
 
-    // Create worksheet
     const worksheet = workbook.addWorksheet('Raport Emerytalny');
 
-    // Set column widths
     worksheet.columns = [{ width: 30 }, { width: 25 }];
 
-    // Header
     worksheet.mergeCells('A1:B1');
     const titleCell = worksheet.getCell('A1');
     titleCell.value = 'Raport Emerytalny';
@@ -144,7 +130,6 @@ export class ExportService {
     dateCell.alignment = { horizontal: 'center' };
     worksheet.addRow([]);
 
-    // Input Data Section
     const inputHeaderRow = worksheet.addRow(['Dane wejściowe', '']);
     inputHeaderRow.font = { bold: true, size: 14 };
     inputHeaderRow.getCell(1).fill = {
@@ -163,7 +148,7 @@ export class ExportService {
     worksheet.addRow(['Wiek', `${data.input.age} lat`]);
     worksheet.addRow(['Wynagrodzenie brutto', `${data.input.grossSalary.toFixed(2)} PLN`]);
     worksheet.addRow(['Data rozpoczęcia pracy', data.input.workStartDate]);
-    worksheet.addRow(['Szacowany wiek emerytalny', `${data.input.estimatedRetirementAge} lat`]);
+    worksheet.addRow(['Szacowany wiek emerytalny', `${data.input.expectedRetirementYear} lat`]);
 
     if (data.input.zusFunds) {
       worksheet.addRow(['Fundusze ZUS', `${data.input.zusFunds.toFixed(2)} PLN`]);
@@ -180,7 +165,6 @@ export class ExportService {
 
     worksheet.addRow([]);
 
-    // Results Section
     const resultsHeaderRow = worksheet.addRow(['Wyniki obliczeń', '']);
     resultsHeaderRow.font = { bold: true, size: 14 };
     resultsHeaderRow.getCell(1).fill = {
@@ -213,7 +197,6 @@ export class ExportService {
       worksheet.addRow(['Łączne składki', `${data.totalContributions.toFixed(2)} PLN`]);
     }
 
-    // Add borders to all cells with data
     worksheet.eachRow({ includeEmpty: false }, row => {
       row.eachCell({ includeEmpty: false }, cell => {
         cell.border = {
@@ -225,7 +208,6 @@ export class ExportService {
       });
     });
 
-    // Generate buffer
     const buffer = await workbook.xlsx.writeBuffer();
     return Buffer.from(buffer);
   }

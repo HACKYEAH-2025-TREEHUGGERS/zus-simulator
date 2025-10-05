@@ -3,17 +3,12 @@ import { exportService, RetirementCalculationResult } from '../services/export.s
 import { calculateRetirementSchema } from '../schemas';
 
 class ExportController {
-  /**
-   * Generate and download PDF report
-   */
   public async generatePDF(req: Request, res: Response): Promise<void> {
     const input = calculateRetirementSchema.parse(req.body);
 
-    // Prepare the data - you can extend this with actual calculation results
     const data: RetirementCalculationResult = {
       input,
-      expectedRetirementAge: input.estimatedRetirementAge,
-      // Add more calculated fields here as your calculation logic evolves
+      expectedRetirementAge: input.expectedRetirementYear,
     };
 
     const pdfBuffer = await exportService.generatePDF(data);
@@ -24,17 +19,12 @@ class ExportController {
     res.send(pdfBuffer);
   }
 
-  /**
-   * Generate and download Excel report
-   */
   public async generateExcel(req: Request, res: Response): Promise<void> {
     const input = calculateRetirementSchema.parse(req.body);
 
-    // Prepare the data - you can extend this with actual calculation results
     const data: RetirementCalculationResult = {
       input,
-      expectedRetirementAge: input.estimatedRetirementAge,
-      // Add more calculated fields here as your calculation logic evolves
+      expectedRetirementAge: input.expectedRetirementYear,
     };
 
     const excelBuffer = await exportService.generateExcel(data);
