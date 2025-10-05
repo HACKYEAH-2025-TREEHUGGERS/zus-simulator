@@ -1,15 +1,27 @@
+import { useMemo } from 'react'
 import { Text } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import ReactEcharts from 'echarts-for-react'
 import { Box } from '@/components/box'
 import { LineChart } from '@/components/line-chart'
 import { HelpTooltip } from '@/components/tooltip'
+import { useRetirementForm } from '@/routes/form/-components/retirement-form-provider'
+import { AVERAGE_RETIREMENT_VALUE } from '@/helpers/constants'
 
 export const DashboardCharts = () => {
   const { t } = useTranslation()
+  const form = useRetirementForm()
+  const avgRetirementPercent = useMemo(() => {
+    const currentValue = form.watch('responseData').expectedRetirementValue
+    if (!currentValue) {
+      return 0
+    }
+    return Math.round((currentValue / AVERAGE_RETIREMENT_VALUE) * 10000) / 100
+  }, [form.watch('responseData').expectedRetirementValue])
+
   return (
-    <div className="flex flex-col gap-2 min-w-[600px]">
-      <Box className="flex flex-col gap-2 mt-4">
+    <div className="flex min-w-[600px] flex-col gap-2">
+      <Box className="mt-4 flex flex-col gap-2">
         <Text className="text-sm">{t('dashboard.zusIncrement')}</Text>
 
         <ReactEcharts
@@ -74,9 +86,9 @@ export const DashboardCharts = () => {
         />
 
         <div className="flex justify-evenly gap-8">
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">{t('dashboard.accountValue')}</Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               168 000 zł
             </Text>
             <Text className="text-xs">
@@ -84,9 +96,9 @@ export const DashboardCharts = () => {
             </Text>
           </Box>
 
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">{t('dashboard.subAccountValue')}</Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               42 000 zł
             </Text>
             <Text className="text-xs">
@@ -94,9 +106,9 @@ export const DashboardCharts = () => {
             </Text>
           </Box>
 
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">{t('dashboard.forecast')}</Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               1 193 000 zł
             </Text>
             <Text className="text-xs">
@@ -108,22 +120,28 @@ export const DashboardCharts = () => {
 
       <div className="mt-8 flex w-full gap-4">
         <Box className="flex flex-col gap-2">
-          <Text className="text-sm gap-2 flex">
+          <Text className="flex gap-2 text-sm">
             {t('step3.exactValue')}
             <HelpTooltip text={t('step3.tooltipExactValue')} />
           </Text>
-          <Text className="text-lg font-semibold">3247 PLN</Text>
+          <Text className="text-lg font-semibold">
+            {form.watch('responseData').expectedRetirementValueForNow ?? '—'}
+            &nbsp;PLN
+          </Text>
         </Box>
         <Box className="flex flex-col gap-2">
-          <Text className="text-sm gap-2 flex">
+          <Text className="flex gap-2 text-sm">
             {t('step3.realValue')}
             <HelpTooltip text={t('step3.tooltipRealValue')} />
           </Text>
-          <Text className="text-lg font-semibold">2137 PLN</Text>
+          <Text className="text-lg font-semibold">
+            {form.watch('responseData').expectedRetirementValue ?? '—'}
+            &nbsp;PLN
+          </Text>
         </Box>
       </div>
 
-      <Box className="flex flex-col gap-2 mt-4">
+      <Box className="mt-4 flex flex-col gap-2">
         <Text className="text-sm">{t('step3.comparison')}</Text>
 
         <ReactEcharts
@@ -147,15 +165,15 @@ export const DashboardCharts = () => {
               {
                 data: [
                   {
-                    value: 5212,
+                    value: form.watch('wantedRetirement'),
                     itemStyle: { color: '#BEC3CE' },
                   },
                   {
-                    value: 3214,
+                    value: form.watch('responseData').expectedRetirementValue,
                     itemStyle: { color: '#00993F' },
                   },
                   {
-                    value: 4595,
+                    value: AVERAGE_RETIREMENT_VALUE,
                     itemStyle: { color: '#C8E2CE' },
                   },
                 ],
@@ -168,14 +186,25 @@ export const DashboardCharts = () => {
 
         <Text className="text-xs leading-2">
           {t('step3.expectationsLine1part1')}
-          <span className="font-semibold text-warning">1753 zł</span>
+          <span className="text-warning font-semibold">
+            {Math.max(
+              0,
+              (form.watch('responseData').salaryToReachWantedRetirement ?? 0) -
+                form.watch('wantedRetirement'),
+            )}{' '}
+            zł
+          </span>
           {t('step3.expectationsLine1part2')}
         </Text>
         <Text className="text-xs leading-2">
           {t('step3.expectationsLine2part1')}
-          <span className="font-semibold">5 lat</span>
+          <span className="font-semibold">
+            {form.watch('responseData').yearsToReachWantedRetirement ?? 0} lat
+          </span>
           {t('step3.expectationsLine2part2', {
-            retirementYear: 2040,
+            retirementYear:
+              form.watch('expectedRetirementYear') +
+              (form.watch('responseData').yearsToReachWantedRetirement ?? 0),
           })}
         </Text>
       </Box>
@@ -225,33 +254,41 @@ export const DashboardCharts = () => {
 
           <Text className="text-xs">
             {t('step3.l4Loss')}:{' '}
-            <span className="font-semibold text-warning">-173 zł (5.1%)</span>
+            <span className="text-warning font-semibold">
+              {' '}
+              {form.watch('responseData').expectedRetirementValueDifference} zł
+            </span>
           </Text>
         </Box>
         <Box className="flex flex-col gap-2">
           <Text className="text-sm">{t('step3.indicators')}</Text>
 
-          <Text className="mt-auto text-sm flex justify-between leading-1">
+          <Text className="mt-auto flex justify-between text-sm leading-1">
             {t('step3.chart.replacementRate')}{' '}
-            <span className="text-base leading-1">28.7%</span>
+            <span className="text-base leading-1">
+              {form.watch('responseData').replacementRate ?? '—'}%
+            </span>
           </Text>
-          <LineChart value={28.7} color="#00993F" />
+          <LineChart
+            value={form.watch('responseData').replacementRate ?? 0}
+            color="#00993F"
+          />
           <Text className="text-xs leading-1">
             {t('step3.chart.indexedWage')}: 11 300zł
           </Text>
 
-          <Text className="mt-8 text-sm flex justify-between leading-1">
+          <Text className="mt-8 flex justify-between text-sm leading-1">
             {t('step3.chart.relativeAverageLevel')}{' '}
-            <span className="text-base leading-1">77.3%</span>
+            <span className="text-base leading-1">{avgRetirementPercent}%</span>
           </Text>
-          <LineChart value={77.3} color="#EF4444" />
+          <LineChart value={avgRetirementPercent} color="#EF4444" />
           <Text className="mb-2 text-xs leading-1">
             {t('step3.chart.average')}: 4 200zł
           </Text>
         </Box>
       </div>
 
-      <Box className="flex flex-col gap-2 mt-4">
+      <Box className="mt-4 flex flex-col gap-2">
         <Text className="text-sm">{t('step3.delayBenefits')}</Text>
 
         <ReactEcharts
@@ -298,31 +335,31 @@ export const DashboardCharts = () => {
         />
 
         <div className="flex justify-evenly gap-8">
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">
               {t('common.years_plural', { count: 1 })}
             </Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               +10.0%
             </Text>
             <Text className="text-xs">+326zł</Text>
           </Box>
 
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">
               {t('common.years_plural_2_4', { count: 2 })}
             </Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               +20.5%
             </Text>
             <Text className="text-xs">+759zł</Text>
           </Box>
 
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">
               {t('common.years_plural_5+', { count: 5 })}
             </Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               +50.0%
             </Text>
             <Text className="text-xs">+1 326zł</Text>

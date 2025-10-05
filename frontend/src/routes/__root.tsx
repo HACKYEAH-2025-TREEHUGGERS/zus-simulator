@@ -4,6 +4,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { I18nProvider, useLocale } from 'react-aria-components'
 
 import Header from '../components/Header'
+import { RetirementFormProvider } from './form/-components/retirement-form-provider'
 
 export const Route = createRootRoute({
   component: () => {
@@ -11,21 +12,23 @@ export const Route = createRootRoute({
 
     return (
       <I18nProvider locale="pl-PL">
-        <div lang={locale} dir={direction}>
-          <Header />
-          <Outlet />
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-        </div>
+        <RetirementFormProvider>
+          <div lang={locale} dir={direction}>
+            <Header />
+            <Outlet />
+            <TanStackDevtools
+              config={{
+                position: 'bottom-right',
+              }}
+              plugins={[
+                {
+                  name: 'Tanstack Router',
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+              ]}
+            />
+          </div>
+        </RetirementFormProvider>
       </I18nProvider>
     )
   },
