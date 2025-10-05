@@ -1,27 +1,110 @@
-import { useTranslation } from 'react-i18next'
 import { Text } from 'react-aria-components'
-import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import ReactEcharts from 'echarts-for-react'
-import { useRetirementForm } from './-components/retirement-form-provider'
-import { Button } from '@/components/button'
-import { HelpTooltip } from '@/components/tooltip'
 import { Box } from '@/components/box'
 import { LineChart } from '@/components/line-chart'
+import { HelpTooltip } from '@/components/tooltip'
 
-export function Step3() {
-  const form = useRetirementForm()
-  const navigate = useNavigate()
+export const DashboardCharts = () => {
   const { t } = useTranslation()
-
   return (
-    <div className="flex flex-col gap-2">
-      <Text className="text-xl font-semibold text-black">
-        {t('step3.summary')}
-      </Text>
-      <Text className="text-base text-black/80 flex items-center gap-2">
-        {t('step3.forecastMessage')}
-        <HelpTooltip text={t('step3.forecastTooltip')} />
-      </Text>
+    <div className="flex flex-col gap-2 min-w-[600px]">
+      <Box className="flex flex-col gap-2 mt-4">
+        <Text className="text-sm">{t('dashboard.zusIncrement')}</Text>
+
+        <ReactEcharts
+          option={{
+            color: ['#00993F', '#00993FAA'],
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985',
+                },
+              },
+            },
+            legend: {
+              data: [t('dashboard.mainAccount'), t('dashboard.subAccount')],
+              bottom: 5,
+            },
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: [
+                2010, 2012, 2015, 2018, 2020, 2023, 2025, 2030, 2035, 2040,
+                2045, 2050, 2055,
+              ],
+            },
+            yAxis: {
+              type: 'value',
+              min: 3000,
+            },
+            series: [
+              {
+                name: t('dashboard.mainAccount'),
+                data: [
+                  0, 8283, 33130, 54563, 92519, 167055, 248250, 405977, 500108,
+                  670688, 757741, 861177, 1003000,
+                ].map((v) => v * 0.9),
+                type: 'line',
+                smooth: true,
+                areaStyle: {},
+              },
+              {
+                name: t('dashboard.subAccount'),
+                data: [
+                  0, 8283, 35130, 77563, 142519, 237055, 318250, 455977, 570108,
+                  770688, 897741, 1051177, 1193000,
+                ],
+                type: 'line',
+                smooth: true,
+                areaStyle: {},
+              },
+            ],
+            grid: {
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: 30,
+              containLabel: true,
+            },
+          }}
+          style={{ width: '100%', height: '300px', padding: 0 }}
+        />
+
+        <div className="flex justify-evenly gap-8">
+          <Box className="flex flex-col items-center w-fit py-1 px-2">
+            <Text className="text-xs">{t('dashboard.accountValue')}</Text>
+            <Text className="text-sm font-semibold text-primary mt-2">
+              168 000 zł
+            </Text>
+            <Text className="text-xs">
+              {t('dashboard.stateAt', { year: 2025 })}
+            </Text>
+          </Box>
+
+          <Box className="flex flex-col items-center w-fit py-1 px-2">
+            <Text className="text-xs">{t('dashboard.subAccountValue')}</Text>
+            <Text className="text-sm font-semibold text-primary mt-2">
+              42 000 zł
+            </Text>
+            <Text className="text-xs">
+              {t('dashboard.stateAt', { year: 2025 })}
+            </Text>
+          </Box>
+
+          <Box className="flex flex-col items-center w-fit py-1 px-2">
+            <Text className="text-xs">{t('dashboard.forecast')}</Text>
+            <Text className="text-sm font-semibold text-primary mt-2">
+              1 193 000 zł
+            </Text>
+            <Text className="text-xs">
+              {t('dashboard.valueIn', { year: 2055 })}
+            </Text>
+          </Box>
+        </div>
+      </Box>
 
       <div className="mt-8 flex w-full gap-4">
         <Box className="flex flex-col gap-2">
@@ -29,7 +112,7 @@ export function Step3() {
             {t('step3.exactValue')}
             <HelpTooltip text={t('step3.tooltipExactValue')} />
           </Text>
-          <Text className="text-lg font-semibold">2137 PLN</Text>
+          <Text className="text-lg font-semibold">3247 PLN</Text>
         </Box>
         <Box className="flex flex-col gap-2">
           <Text className="text-sm gap-2 flex">
@@ -64,7 +147,7 @@ export function Step3() {
               {
                 data: [
                   {
-                    value: form.watch('expectedRetirement'),
+                    value: 5212,
                     itemStyle: { color: '#BEC3CE' },
                   },
                   {
@@ -246,32 +329,6 @@ export function Step3() {
           </Box>
         </div>
       </Box>
-
-      <div className="flex gap-2 mt-10">
-        <Button
-          onClick={() => {
-            navigate({
-              to: '/form',
-              search: { step: 1 },
-              reloadDocument: true,
-            })
-          }}
-          className="w-full mr-auto"
-          variant="secondary"
-        >
-          {t('step3.newSimulation')}
-        </Button>
-        <Button
-          onClick={() => {
-            navigate({
-              to: '/dashboard',
-            })
-          }}
-          className="w-full ml-auto"
-        >
-          {t('step3.goToDashboard')}
-        </Button>
-      </div>
     </div>
   )
 }
