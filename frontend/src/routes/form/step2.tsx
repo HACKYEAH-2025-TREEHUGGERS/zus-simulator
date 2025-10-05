@@ -39,7 +39,19 @@ export function Step2() {
       )
 
       const result = await response.json()
-      console.log(result)
+
+      // Save the API response to form context
+      form.setValue('responseData', {
+        estimatedSickDaysMen: result.estimatedSickDaysMen,
+        estimatedSickDaysWomen: result.estimatedSickDaysWomen,
+        expectedRetirementValueDifference:
+          result.expectedRetirementValueDifference,
+        expectedRetirementValueForNow: result.expectedRetirementValueForNow,
+        expectedRetirementValue: result.expectedRetirementValue,
+        expectedRetirementValueWithSickDays:
+          result.expectedRetirementValueWithSickDays,
+        replacementRate: result.replacementRate,
+      })
     } catch (error) {
       console.error('Error calling API:', error)
     }

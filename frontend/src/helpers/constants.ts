@@ -1,0 +1,1 @@
+export const AVERAGE_RETIREMENT_VALUE = 3735.34

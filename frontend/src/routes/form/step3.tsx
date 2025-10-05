@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'react-aria-components'
 import { useNavigate } from '@tanstack/react-router'
@@ -7,40 +8,48 @@ import { Button } from '@/components/button'
 import { HelpTooltip } from '@/components/tooltip'
 import { Box } from '@/components/box'
 import { LineChart } from '@/components/line-chart'
+import { AVERAGE_RETIREMENT_VALUE } from '@/helpers/constants'
 
 export function Step3() {
   const form = useRetirementForm()
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const avgRetirementPercent = useMemo(() => {
+    const currentValue = form.watch('responseData').expectedRetirementValue
+    if (!currentValue) {
+      return 0
+    }
+    return Math.round((currentValue / AVERAGE_RETIREMENT_VALUE) * 10000) / 100
+  }, [form.watch('responseData').expectedRetirementValue])
 
   return (
     <div className="flex flex-col gap-2">
       <Text className="text-xl font-semibold text-black">
         {t('step3.summary')}
       </Text>
-      <Text className="text-base text-black/80 flex items-center gap-2">
+      <Text className="flex items-center gap-2 text-base text-black/80">
         {t('step3.forecastMessage')}
         <HelpTooltip text={t('step3.forecastTooltip')} />
       </Text>
 
       <div className="mt-8 flex w-full gap-4">
         <Box className="flex flex-col gap-2">
-          <Text className="text-sm gap-2 flex">
-            {t('step3.exactValue')}
-            <HelpTooltip text={t('step3.tooltipExactValue')} />
+          <Text className="text-sm">{t('step3.exactValue')}</Text>
+          <Text className="text-lg font-semibold">
+            {form.watch('responseData').expectedRetirementValueForNow ?? '—'}
+            &nbsp;PLN
           </Text>
-          <Text className="text-lg font-semibold">2137 PLN</Text>
         </Box>
         <Box className="flex flex-col gap-2">
-          <Text className="text-sm gap-2 flex">
-            {t('step3.realValue')}
-            <HelpTooltip text={t('step3.tooltipRealValue')} />
+          <Text className="text-sm">{t('step3.realValue')}</Text>
+          <Text className="text-lg font-semibold">
+            {form.watch('responseData').expectedRetirementValue ?? '—'}
+            &nbsp;PLN
           </Text>
-          <Text className="text-lg font-semibold">2137 PLN</Text>
         </Box>
       </div>
 
-      <Box className="flex flex-col gap-2 mt-4">
+      <Box className="mt-4 flex flex-col gap-2">
         <Text className="text-sm">{t('step3.comparison')}</Text>
 
         <ReactEcharts
@@ -64,15 +73,15 @@ export function Step3() {
               {
                 data: [
                   {
-                    value: form.watch('expectedRetirement'),
+                    value: form.watch('wantedRetirement'),
                     itemStyle: { color: '#BEC3CE' },
                   },
                   {
-                    value: 3214,
+                    value: form.watch('responseData').expectedRetirementValue,
                     itemStyle: { color: '#00993F' },
                   },
                   {
-                    value: 4595,
+                    value: AVERAGE_RETIREMENT_VALUE,
                     itemStyle: { color: '#C8E2CE' },
                   },
                 ],
@@ -85,7 +94,7 @@ export function Step3() {
 
         <Text className="text-xs leading-2">
           {t('step3.expectationsLine1part1')}
-          <span className="font-semibold text-warning">1753 zł</span>
+          <span className="text-warning font-semibold">1753 zł</span>
           {t('step3.expectationsLine1part2')}
         </Text>
         <Text className="text-xs leading-2">
@@ -98,77 +107,96 @@ export function Step3() {
       </Box>
 
       <div className="mt-4 flex w-full gap-4">
-        <Box className="flex flex-col gap-2">
-          <Text className="text-sm">{t('step3.illnessInfluence')}</Text>
+        {form.watch('includeSickLeave') && (
+          <Box className="flex flex-col gap-2">
+            <Text className="text-sm">{t('step3.illnessInfluence')}</Text>
 
-          <ReactEcharts
-            option={{
-              color: ['#00993F', '#C8E2CE'],
-              tooltip: {
-                trigger: 'axis',
-                formatter: '{c}zł',
-              },
-              yAxis: {
-                type: 'category',
-                data: [t('step3.chart.withoutL4'), t('step3.chart.withL4')],
-              },
-              xAxis: {
-                type: 'value',
-                axisLabel: {
-                  show: true,
-                  formatter: (value: string, index: number) =>
-                    index % 2 === 0 ? value : '',
+            <ReactEcharts
+              option={{
+                color: ['#00993F', '#C8E2CE'],
+                tooltip: {
+                  trigger: 'axis',
+                  formatter: '{c}zł',
                 },
-              },
-              series: [
-                {
-                  type: 'bar',
-                  data: [
-                    { value: 3650, itemStyle: { color: '#00993F' } },
-                    { value: 3214, itemStyle: { color: '#C8E2CE' } },
-                  ],
+                yAxis: {
+                  type: 'category',
+                  data: [t('step3.chart.withoutL4'), t('step3.chart.withL4')],
                 },
-              ],
-              grid: {
-                left: 1,
-                right: 20,
-                top: 1,
-                bottom: 1,
-                containLabel: true,
-              },
-            }}
-            style={{ width: '100%', height: '100px', padding: 0 }}
-          />
+                xAxis: {
+                  type: 'value',
+                  axisLabel: {
+                    show: true,
+                    formatter: (value: string, index: number) =>
+                      index % 2 === 0 ? value : '',
+                  },
+                },
+                series: [
+                  {
+                    type: 'bar',
+                    data: [
+                      {
+                        value:
+                          form.watch('responseData').expectedRetirementValue,
+                        itemStyle: { color: '#00993F' },
+                      },
+                      {
+                        value:
+                          form.watch('responseData')
+                            .expectedRetirementValueWithSickDays,
+                        itemStyle: { color: '#C8E2CE' },
+                      },
+                    ],
+                  },
+                ],
+                grid: {
+                  left: 1,
+                  right: 20,
+                  top: 1,
+                  bottom: 1,
+                  containLabel: true,
+                },
+              }}
+              style={{ width: '100%', height: '100px', padding: 0 }}
+            />
 
-          <Text className="text-xs">
-            {t('step3.l4Loss')}:{' '}
-            <span className="font-semibold text-warning">-173 zł (5.1%)</span>
-          </Text>
-        </Box>
+            <Text className="text-xs">
+              {t('step3.l4Loss')}:{' '}
+              <span className="text-warning font-semibold">
+                {form.watch('responseData').expectedRetirementValueDifference}{' '}
+                zł
+              </span>
+            </Text>
+          </Box>
+        )}
         <Box className="flex flex-col gap-2">
           <Text className="text-sm">{t('step3.indicators')}</Text>
 
-          <Text className="mt-auto text-sm flex justify-between leading-1">
+          <Text className="mt-auto flex justify-between text-sm leading-1">
             {t('step3.chart.replacementRate')}{' '}
-            <span className="text-base leading-1">28.7%</span>
+            <span className="text-base leading-1">
+              {form.watch('responseData').replacementRate ?? '—'}%
+            </span>
           </Text>
-          <LineChart value={28.7} color="#00993F" />
+          <LineChart
+            value={form.watch('responseData').replacementRate ?? 0}
+            color="#00993F"
+          />
           <Text className="text-xs leading-1">
             {t('step3.chart.indexedWage')}: 11 300zł
           </Text>
 
-          <Text className="mt-8 text-sm flex justify-between leading-1">
+          <Text className="mt-8 flex justify-between text-sm leading-1">
             {t('step3.chart.relativeAverageLevel')}{' '}
-            <span className="text-base leading-1">77.3%</span>
+            <span className="text-base leading-1">{avgRetirementPercent}%</span>
           </Text>
-          <LineChart value={77.3} color="#EF4444" />
+          <LineChart value={avgRetirementPercent} color="#EF4444" />
           <Text className="mb-2 text-xs leading-1">
-            {t('step3.chart.average')}: 4 200zł
+            {t('step3.chart.average')}: {AVERAGE_RETIREMENT_VALUE}zł
           </Text>
         </Box>
       </div>
 
-      <Box className="flex flex-col gap-2 mt-4">
+      <Box className="mt-4 flex flex-col gap-2">
         <Text className="text-sm">{t('step3.delayBenefits')}</Text>
 
         <ReactEcharts
@@ -215,31 +243,31 @@ export function Step3() {
         />
 
         <div className="flex justify-evenly gap-8">
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">
               {t('common.years_plural', { count: 1 })}
             </Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               +10.0%
             </Text>
             <Text className="text-xs">+326zł</Text>
           </Box>
 
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">
               {t('common.years_plural_2_4', { count: 2 })}
             </Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               +20.5%
             </Text>
             <Text className="text-xs">+759zł</Text>
           </Box>
 
-          <Box className="flex flex-col items-center w-fit py-1 px-2">
+          <Box className="flex w-fit flex-col items-center px-2 py-1">
             <Text className="text-xs">
               {t('common.years_plural_5+', { count: 5 })}
             </Text>
-            <Text className="text-sm font-semibold text-primary mt-2">
+            <Text className="text-primary mt-2 text-sm font-semibold">
               +50.0%
             </Text>
             <Text className="text-xs">+1 326zł</Text>
@@ -247,7 +275,7 @@ export function Step3() {
         </div>
       </Box>
 
-      <div className="flex gap-2 mt-10">
+      <div className="mt-10 flex gap-2">
         <Button
           onClick={() => {
             navigate({
@@ -256,7 +284,7 @@ export function Step3() {
               reloadDocument: true,
             })
           }}
-          className="w-full mr-auto"
+          className="mr-auto w-full"
           variant="secondary"
         >
           {t('step3.newSimulation')}
@@ -267,7 +295,7 @@ export function Step3() {
               to: '/dashboard',
             })
           }}
-          className="w-full ml-auto"
+          className="ml-auto w-full"
         >
           {t('step3.goToDashboard')}
         </Button>

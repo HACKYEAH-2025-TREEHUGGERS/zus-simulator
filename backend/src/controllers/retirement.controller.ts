@@ -6,7 +6,7 @@ class RetirementController {
   public async calculateRetirement(req: Request, res: Response): Promise<void> {
     const input = calculateRetirementSchema.parse(req.body);
 
-    const result = await retirementService.calculateRetirementValue(input);
+    const result = await retirementService.calculateRetirementEndpoint(input);
 
     res.json(result);
   }

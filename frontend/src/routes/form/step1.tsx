@@ -12,7 +12,7 @@ export function Step1() {
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const expectedRetirement = form.watch('expectedRetirement') || 0
+  const expectedRetirement = form.watch('wantedRetirement') || 0
 
   const getCategory = (value: number): string => {
     if (value < 1780) return 'Poniżej minimalnej'
@@ -136,12 +136,12 @@ export function Step1() {
       </Text>
 
       <NumberInput
-        {...form.register('expectedRetirement', {
+        {...form.register('wantedRetirement', {
           required: true,
         })}
-        value={form.watch('expectedRetirement')}
-        defaultValue={form.getValues('expectedRetirement')}
-        onChange={(v) => form.setValue('expectedRetirement', v)}
+        value={form.watch('wantedRetirement')}
+        defaultValue={form.getValues('wantedRetirement')}
+        onChange={(v) => form.setValue('wantedRetirement', v)}
         minValue={0}
         label={t('step1.retirementQuestion')}
         className="mt-8"
@@ -176,8 +176,8 @@ export function Step1() {
           })
         }}
         isDisabled={
-          !form.watch('expectedRetirement') ||
-          !!form.formState.errors.expectedRetirement
+          !form.watch('wantedRetirement') ||
+          !!form.formState.errors.wantedRetirement
         }
         className="mt-10 ml-auto w-1/3"
       >
