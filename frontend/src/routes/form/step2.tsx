@@ -53,6 +53,7 @@ export function Step2() {
         replacementRate: result.replacementRate,
         salaryToReachWantedRetirement: result.salaryToReachWantedRetirement,
         yearsToReachWantedRetirement: result.yearsToReachWantedRetirement,
+        accountBalanceByYear: result.accountBalanceByYear,
       })
     } catch (error) {
       console.error('Error calling API:', error)

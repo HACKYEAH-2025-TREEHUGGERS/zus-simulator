@@ -37,16 +37,15 @@ export const DashboardCharts = () => {
               },
             },
             legend: {
-              data: [t('dashboard.mainAccount'), t('dashboard.subAccount')],
+              data: [t('dashboard.mainAccount')],
               bottom: 5,
             },
             xAxis: {
               type: 'category',
               boundaryGap: false,
-              data: [
-                2010, 2012, 2015, 2018, 2020, 2023, 2025, 2030, 2035, 2040,
-                2045, 2050, 2055,
-              ],
+              data: Object.keys(
+                form.watch('responseData').accountBalanceByYear,
+              ),
             },
             yAxis: {
               type: 'value',
@@ -55,20 +54,9 @@ export const DashboardCharts = () => {
             series: [
               {
                 name: t('dashboard.mainAccount'),
-                data: [
-                  0, 8283, 33130, 54563, 92519, 167055, 248250, 405977, 500108,
-                  670688, 757741, 861177, 1003000,
-                ].map((v) => v * 0.9),
-                type: 'line',
-                smooth: true,
-                areaStyle: {},
-              },
-              {
-                name: t('dashboard.subAccount'),
-                data: [
-                  0, 8283, 35130, 77563, 142519, 237055, 318250, 455977, 570108,
-                  770688, 897741, 1051177, 1193000,
-                ],
+                data: Object.values(
+                  form.watch('responseData').accountBalanceByYear,
+                ),
                 type: 'line',
                 smooth: true,
                 areaStyle: {},

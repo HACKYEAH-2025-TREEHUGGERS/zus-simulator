@@ -30,6 +30,7 @@ export const retirementFormSchema = z.object({
     replacementRate: z.number().optional(),
     salaryToReachWantedRetirement: z.number().optional(),
     yearsToReachWantedRetirement: z.number().optional(),
+    accountBalanceByYear: z.record(z.number(), z.number()),
   }),
 })
 
@@ -64,6 +65,7 @@ export const RetirementFormProvider = ({
         replacementRate: undefined,
         salaryToReachWantedRetirement: undefined,
         yearsToReachWantedRetirement: undefined,
+        accountBalanceByYear: undefined,
       },
     },
     mode: 'onChange',
