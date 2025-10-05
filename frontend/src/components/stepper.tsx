@@ -2,7 +2,7 @@ import { Link, useLayoutEffect } from '@tanstack/react-router'
 import { Breadcrumb, Breadcrumbs } from 'react-aria-components'
 import { useRef, useState } from 'react'
 import { useWindowSize } from '@uidotdev/usehooks'
-import { Check } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import { cn } from '@/helpers/cn'
 
 type Step = {
@@ -46,12 +46,20 @@ export const Stepper = ({ steps, currentStep, className }: StepperProps) => {
                     `h-px border-4 border-b border-background`,
                     index < currentStep && 'border-primary',
                   )}
-                  style={{ width: containerWidth / steps.length }}
+                  style={{
+                    width: containerWidth / steps.length + steps.length * 20,
+                  }}
                 />
               )}
               {index < currentStep ? (
-                <div className="size-6 bg-primary rounded-full">
-                  {step.completed ? <Check className="text-white" /> : null}
+                <div className="size-6 bg-primary rounded-full flex items-center justify-center">
+                  {step.completed ? (
+                    <CheckCircle2
+                      fill="white"
+                      className="text-primary"
+                      size={20}
+                    />
+                  ) : null}
                 </div>
               ) : (
                 <div className="flex items-center justify-center font-semibold text-sm size-6 bg-background rounded-full">

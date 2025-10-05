@@ -62,7 +62,7 @@ export function Step1() {
       <Text className="text-xl font-semibold text-black">
         {t('step1.enterBasicInfo')}
       </Text>
-      <Text className="text-darkBlue text-xl">
+      <Text className="text-base text-black/80">
         {t('step1.checkExpectations')}
       </Text>
 
@@ -81,6 +81,12 @@ export function Step1() {
           maximumFractionDigits: 2,
         }}
         isRequired
+        placeholder={t('common.enterPLN')}
+      />
+
+      <ReactEcharts
+        option={option}
+        style={{ width: '100%', height: '300px' }}
       />
 
       <Text className="mt-8 text-center text-xl font-semibold text-black">
