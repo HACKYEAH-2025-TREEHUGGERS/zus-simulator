@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'react-aria-components'
 import { useNavigate } from '@tanstack/react-router'
@@ -7,11 +8,19 @@ import { Button } from '@/components/button'
 import { HelpTooltip } from '@/components/tooltip'
 import { Box } from '@/components/box'
 import { LineChart } from '@/components/line-chart'
+import { AVERAGE_RETIREMENT_VALUE } from '@/helpers/constants'
 
 export function Step3() {
   const form = useRetirementForm()
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const avgRetirementPercent = useMemo(() => {
+    const currentValue = form.watch('responseData').expectedRetirementValue
+    if (!currentValue) {
+      return 0
+    }
+    return Math.round((currentValue / AVERAGE_RETIREMENT_VALUE) * 10000) / 100
+  }, [form.watch('responseData').expectedRetirementValue])
 
   return (
     <div className="flex flex-col gap-2">
@@ -26,7 +35,10 @@ export function Step3() {
       <div className="mt-8 flex w-full gap-4">
         <Box className="flex flex-col gap-2">
           <Text className="text-sm">{t('step3.exactValue')}</Text>
-          <Text className="text-lg font-semibold">0,00 PLN</Text>
+          <Text className="text-lg font-semibold">
+            {form.watch('responseData').expectedRetirementValueForNow ?? '—'}
+            &nbsp;PLN
+          </Text>
         </Box>
         <Box className="flex flex-col gap-2">
           <Text className="text-sm">{t('step3.realValue')}</Text>
@@ -61,7 +73,7 @@ export function Step3() {
               {
                 data: [
                   {
-                    value: form.watch('expectedRetirement'),
+                    value: form.watch('wantedRetirement'),
                     itemStyle: { color: '#BEC3CE' },
                   },
                   {
@@ -69,7 +81,7 @@ export function Step3() {
                     itemStyle: { color: '#00993F' },
                   },
                   {
-                    value: 4595,
+                    value: AVERAGE_RETIREMENT_VALUE,
                     itemStyle: { color: '#C8E2CE' },
                   },
                 ],
@@ -150,7 +162,8 @@ export function Step3() {
             <Text className="text-xs">
               {t('step3.l4Loss')}:{' '}
               <span className="text-warning font-semibold">
-                {form.watch('responseData').expectedRetirementValueDifference}
+                {form.watch('responseData').expectedRetirementValueDifference}{' '}
+                zł
               </span>
             </Text>
           </Box>
@@ -174,11 +187,11 @@ export function Step3() {
 
           <Text className="mt-8 flex justify-between text-sm leading-1">
             {t('step3.chart.relativeAverageLevel')}{' '}
-            <span className="text-base leading-1">77.3%</span>
+            <span className="text-base leading-1">{avgRetirementPercent}%</span>
           </Text>
-          <LineChart value={77.3} color="#EF4444" />
+          <LineChart value={avgRetirementPercent} color="#EF4444" />
           <Text className="mb-2 text-xs leading-1">
-            {t('step3.chart.average')}: 4 200zł
+            {t('step3.chart.average')}: {AVERAGE_RETIREMENT_VALUE}zł
           </Text>
         </Box>
       </div>

@@ -8,9 +8,7 @@ export const genders = ['male', 'female'] as const
 export const retirementFormSchema = z.object({
   step: z.number().min(1).max(3),
   age: z.number(),
-  expectedRetirement: z
-    .number()
-    .min(0, { message: 'Expected retirement must be non-negative' }),
+  wantedRetirement: z.number(),
   gender: z.enum(genders),
   grossSalary: z
     .number()
@@ -25,6 +23,7 @@ export const retirementFormSchema = z.object({
   responseData: z.object({
     estimatedSickDaysMen: z.number().optional(),
     estimatedSickDaysWomen: z.number().optional(),
+    expectedRetirementValueForNow: z.number().optional(),
     expectedRetirementValue: z.number().optional(),
     expectedRetirementValueDifference: z.number().optional(),
     expectedRetirementValueWithSickDays: z.number().optional(),
@@ -46,7 +45,6 @@ export const RetirementFormProvider = ({
     defaultValues: {
       step: 1,
       age: undefined,
-      expectedRetirement: undefined,
       gender: undefined,
       grossSalary: undefined,
       workStartDate: undefined,
@@ -59,6 +57,7 @@ export const RetirementFormProvider = ({
         estimatedSickDaysWomen: undefined,
         expectedRetirementValue: undefined,
         expectedRetirementValueDifference: undefined,
+        expectedRetirementValueForNow: undefined,
         expectedRetirementValueWithSickDays: undefined,
         replacementRate: undefined,
       },

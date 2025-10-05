@@ -96,9 +96,18 @@ export class RetirementService {
       parseFloat(userSickDays ?? '0')
     );
 
+    let currentAccountBalanceForNow = this.calculateAccountBalance(
+      Math.max(0, payload.zusFunds || 0),
+      payload.grossSalary,
+      projectionParams,
+      currentYear,
+      new Date().getFullYear()
+    );
+
     if (isOldRetirementSystem) {
       currentAccountBalance += payload.initialCapital || 0;
       currentAccountBalanceWithSickDays += payload.initialCapital || 0;
+      currentAccountBalanceForNow += payload.initialCapital || 0;
     }
 
     const ageOnRetirement = payload.expectedRetirementYear - (today.getFullYear() - payload.age);
@@ -112,6 +121,7 @@ export class RetirementService {
     const expectedRetirementValue = currentAccountBalance / expectedLifetime;
     const expectedRetirementValueWithSickDays =
       currentAccountBalanceWithSickDays / expectedLifetime;
+    const expectedRetirementValueForNow = currentAccountBalanceForNow / expectedLifetime;
     const replacementRate = (expectedRetirementValue / payload.grossSalary) * 100;
 
     return {
@@ -120,6 +130,7 @@ export class RetirementService {
       expectedRetirementValueDifference: this.roundNumber(
         expectedRetirementValueWithSickDays - expectedRetirementValue
       ),
+      expectedRetirementValueForNow: this.roundNumber(expectedRetirementValueForNow),
       estimatedSickDaysWomen: sickDays[0].avgFemale || 0,
       estimatedSickDaysMen: sickDays[0].avgMale || 0,
       replacementRate: this.roundNumber(replacementRate),

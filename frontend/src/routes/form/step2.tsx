@@ -46,6 +46,7 @@ export function Step2() {
         estimatedSickDaysWomen: result.estimatedSickDaysWomen,
         expectedRetirementValueDifference:
           result.expectedRetirementValueDifference,
+        expectedRetirementValueForNow: result.expectedRetirementValueForNow,
         expectedRetirementValue: result.expectedRetirementValue,
         expectedRetirementValueWithSickDays:
           result.expectedRetirementValueWithSickDays,
