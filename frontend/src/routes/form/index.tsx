@@ -28,7 +28,7 @@ function RouteComponent() {
     <RetirementStepGuard>
       <ScreenContainer className="flex max-w-[600px] flex-col gap-4">
         <FormStepper maxSteps={stepComponents.length} />
-        <Text className="text-primary text-lg">
+        <Text className="text-[#007A39] brightness-90 text-lg font-semibold">
           {t('step')} {step}/{stepComponents.length}
         </Text>
 

@@ -38,6 +38,8 @@ export const Stepper = ({ steps, currentStep, className }: StepperProps) => {
             to={step.to}
             search={(old) => ({ ...old, ...step.search })}
             className="w-full inline-flex"
+            aria-label={`Go to step ${index + 1}`}
+            title={`Go to step ${index + 1}`}
           >
             <div className="flex items-center w-fit">
               {!!index && (

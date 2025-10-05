@@ -21,6 +21,22 @@
       },
       "step1": {
         "title": "Kompas",
+        "category": {
+          "below_min": "Poniżej minimalnej",
+          "minimal": "Minimalna",
+          "below_avg": "Poniżej średniej",
+          "at_avg": "Na poziomie średniej",
+          "above_avg": "Powyżej średniej",
+          "high": "Wysokie",
+          "amounts": {
+            "below_min": "< 1780 PLN",
+            "minimal": "~1780 PLN",
+            "below_avg": "1780 - 3500 PLN",
+            "at_avg": "~3500 PLN",
+            "above_avg": "3500 - 6000 PLN",
+            "high": "> 6000 PLN"
+          }
+        },
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
         "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości",
         "retirementQuestion": "Jaką emeryturę chciałbyś otrzymywać miesięcznie?",
@@ -38,7 +54,7 @@
         "includeSickLeave": "Uwzględniaj możliwość zwolnień lekarskich",
         "programMyRetirement": "Zaprognozuj moją przyszłą emeryturę",
         "tooltipWorkStartDate": "Rok rozpoczęcia pracy i zakończenia pracy odnosi się do stycznia",
-        "tooltipSickLeave": "Pracujący w Polsce przebywają średnio na zwolnieniach lekarskich około 34 dni rocznie. Zwolnienie lekarskie obniża świadczenie do 80% podstawy wynagrodzenia.",
+        "tooltipSickLeave": "Pracujący w Polsce przebywają średnio na zwolnieniach lekarskich około 34 dni rocznie. Zwolnienie lekarskie obniża świadczenie do 80% podstawy wynagrodzenia.",
         "initialCapital": "Kapitał początkowy",
         "tooltipInitialCapital": "Kapitał początkowy ZUS to odtworzona kwota składek na ubezpieczenie społeczne opłaconych przed 1 stycznia 1999 r"
       },
@@ -97,6 +113,229 @@
     }
   },
   "en": {
-    "translation": {}
+    "translation": {
+      "step": "Step",
+      "common": {
+        "continue": "Continue",
+        "back": "Back",
+        "male": "Male",
+        "female": "Female",
+        "select": "Select",
+        "enterPLN": "Enter amount in PLN",
+        "years_plural": "{{count}} year",
+        "years_plural_2_4": "{{count}} years",
+        "years_plural_5+": "{{count}} years",
+        "today": "Today",
+        "delete": "Delete",
+        "year": "Year",
+        "sickDays": "Sick days",
+        "addYear": "Add year",
+        "addRange": "Add range"
+      },
+      "step1": {
+        "title": "Compass",
+        "category": {
+          "below_min": "Below minimum",
+          "minimal": "Minimum",
+          "below_avg": "Below average",
+          "at_avg": "At average",
+          "above_avg": "Above average",
+          "high": "High",
+          "amounts": {
+            "below_min": "< 1780 PLN",
+            "minimal": "~1780 PLN",
+            "below_avg": "1780 - 3500 PLN",
+            "at_avg": "~3500 PLN",
+            "above_avg": "3500 - 6000 PLN",
+            "high": "> 6000 PLN"
+          }
+        },
+        "enterBasicInfo": "Enter your basic information",
+        "checkExpectations": "Check how your expectations compare to reality",
+        "retirementQuestion": "What monthly pension would you like to receive?",
+        "didYouKnow": "Did you know..."
+      },
+      "step2": {
+        "fillForm": "Fill out the form",
+        "seeYourForecast": "See your future pension forecast",
+        "age": "Age",
+        "gender": "Gender",
+        "salaryGross": "Gross salary amount",
+        "workStartYear": "Year of starting work",
+        "workEndDate": "Planned year of ending professional activity",
+        "zusFunds": "Funds accumulated in ZUS account and sub-account",
+        "includeSickLeave": "Include possible sick leaves",
+        "programMyRetirement": "Forecast my future pension",
+        "tooltipWorkStartDate": "The start and end year refer to January",
+        "tooltipSickLeave": "Employees in Poland take an average of 34 sick days per year. Sick leave reduces the benefit to 80% of the base salary.",
+        "initialCapital": "Initial capital",
+        "tooltipInitialCapital": "ZUS initial capital is the recreated amount of contributions paid before January 1, 1999."
+      },
+      "step3": {
+        "summary": "Summary",
+        "forecastMessage": "Your projected pension amount",
+        "newSimulation": "Run a new simulation",
+        "goToDashboard": "Go to Dashboard",
+        "forecastTooltip": "Taking into account the gradual increase of the minimum wage",
+        "exactValue": "Actual amount",
+        "tooltipExactValue": "The actual amount is the projected pension if you retire in your planned year of ending work activity.",
+        "realValue": "Real value",
+        "tooltipRealValue": "The real value is the projected pension adjusted for inflation at the planned retirement year.",
+        "illnessInfluence": "Impact of sick leave periods",
+        "indicators": "Indicators",
+        "comparison": "Pension comparison",
+        "expectationsLine1part1": "You need to earn ",
+        "expectationsLine1part2": " more per month to reach your expected pension",
+        "expectationsLine2part1": "To reach your goal, you need to work an additional ",
+        "expectationsLine2part2": " (until {{retirementYear}})",
+        "l4Loss": "Loss due to sick leave",
+        "delayBenefits": "Benefits of delaying retirement",
+        "chart": {
+          "expected": "Expected",
+          "forecasted": "Forecasted",
+          "average": "National average",
+          "withL4": "With sick leave",
+          "withoutL4": "Without sick leave",
+          "retirementAmount": "Pension amount",
+          "replacementRate": "Replacement rate",
+          "relativeAverageLevel": "Relative to average level",
+          "indexedWage": "Indexed wage"
+        }
+      },
+      "dashboard": {
+        "title": "Dashboard",
+        "downloadReport": "Download report",
+        "compensationHistory": "Compensation history",
+        "compensationHistorySubtext": "Make broader changes in forecasting settings",
+        "indexingType": "Indexation type",
+        "howWeCalculateIndexing": "How we calculate forecasted indexation",
+        "indexingExplanation": "We consider historical inflation, GDP growth, NBP forecasts, and average wage growth in the economy.",
+        "indexingTypes": {
+          "forecasted": "Forecasted indexation",
+          "real": "Real indexation"
+        },
+        "zusIncrement": "ZUS capital growth",
+        "mainAccount": "Main account",
+        "subAccount": "Sub-account",
+        "accountValue": "Account value",
+        "subAccountValue": "Sub-account value",
+        "forecast": "Forecast",
+        "stateAt": "State at {{year}}",
+        "valueIn": "Value in {{year}}"
+      }
+    }
+  },
+  "ua": {
+    "translation": {
+      "step": "Крок",
+      "common": {
+        "continue": "Далі",
+        "back": "Назад",
+        "male": "Чоловік",
+        "female": "Жінка",
+        "select": "Вибрати",
+        "enterPLN": "Введіть суму в PLN",
+        "years_plural": "{{count}} рік",
+        "years_plural_2_4": "{{count}} роки",
+        "years_plural_5+": "{{count}} років",
+        "today": "Сьогодні",
+        "delete": "Видалити",
+        "year": "Рік",
+        "sickDays": "Дні хвороби",
+        "addYear": "Додати рік",
+        "addRange": "Додати діапазон"
+      },
+      "step1": {
+        "title": "Компас",
+        "category": {
+          "below_min": "Нижче мінімальної",
+          "minimal": "Мінімальна",
+          "below_avg": "Нижче середньої",
+          "at_avg": "На рівні середньої",
+          "above_avg": "Вище середньої",
+          "high": "Висока",
+          "amounts": {
+            "below_min": "< 1780 PLN",
+            "minimal": "~1780 PLN",
+            "below_avg": "1780 - 3500 PLN",
+            "at_avg": "~3500 PLN",
+            "above_avg": "3500 - 6000 PLN",
+            "high": "> 6000 PLN"
+          }
+        },
+        "enterBasicInfo": "Введіть основну інформацію",
+        "checkExpectations": "Перевірте, як ваші очікування співвідносяться з реальністю",
+        "retirementQuestion": "Яку пенсію ви хотіли б отримувати щомісяця?",
+        "didYouKnow": "Чи знали ви, що..."
+      },
+      "step2": {
+        "fillForm": "Заповніть форму",
+        "seeYourForecast": "Перегляньте прогноз вашої майбутньої пенсії",
+        "age": "Вік",
+        "gender": "Стать",
+        "salaryGross": "Розмір заробітної плати (брутто)",
+        "workStartYear": "Рік початку роботи",
+        "workEndDate": "Планований рік завершення трудової діяльності",
+        "zusFunds": "Кошти, накопичені на рахунку та субрахунку ZUS",
+        "includeSickLeave": "Враховувати можливість лікарняних",
+        "programMyRetirement": "Спрогнозувати мою майбутню пенсію",
+        "tooltipWorkStartDate": "Рік початку та завершення роботи відноситься до січня",
+        "tooltipSickLeave": "Працівники в Польщі в середньому перебувають на лікарняному близько 34 днів на рік. Лікарняний знижує виплату до 80% від базової заробітної плати.",
+        "initialCapital": "Початковий капітал",
+        "tooltipInitialCapital": "Початковий капітал ZUS — це відновлена сума внесків на соціальне страхування, сплачених до 1 січня 1999 року."
+      },
+      "step3": {
+        "summary": "Підсумок",
+        "forecastMessage": "Ваш прогнозований розмір пенсії",
+        "newSimulation": "Нова симуляція",
+        "goToDashboard": "Перейти до панелі",
+        "forecastTooltip": "З урахуванням поступового зростання мінімальної заробітної плати",
+        "exactValue": "Фактична сума",
+        "tooltipExactValue": "Фактична сума — це прогнозований розмір пенсії, якщо ви вийдете на пенсію у запланованому році.",
+        "realValue": "Реальна сума",
+        "tooltipRealValue": "Реальна сума — це прогнозована пенсія з урахуванням інфляції у запланованому році виходу на пенсію.",
+        "illnessInfluence": "Вплив періодів хвороби",
+        "indicators": "Показники",
+        "comparison": "Порівняння пенсій",
+        "expectationsLine1part1": "Вам потрібно заробляти ",
+        "expectationsLine1part2": " більше щомісяця, щоб досягти бажаної пенсії",
+        "expectationsLine2part1": "Щоб досягти мети, вам потрібно працювати ще ",
+        "expectationsLine2part2": " (до {{retirementYear}} року)",
+        "l4Loss": "Втрати через лікарняні",
+        "delayBenefits": "Переваги відкладення виходу на пенсію",
+        "chart": {
+          "expected": "Очікувана",
+          "forecasted": "Прогнозована",
+          "average": "Середня по країні",
+          "withL4": "З лікарняними",
+          "withoutL4": "Без лікарняних",
+          "retirementAmount": "Розмір пенсії",
+          "replacementRate": "Коефіцієнт заміщення",
+          "relativeAverageLevel": "Відносно середнього рівня",
+          "indexedWage": "Індексована зарплата"
+        }
+      },
+      "dashboard": {
+        "title": "Панель",
+        "downloadReport": "Завантажити звіт",
+        "compensationHistory": "Історія заробітної плати",
+        "compensationHistorySubtext": "Внесіть ширші зміни в параметри прогнозування",
+        "indexingType": "Тип індексації",
+        "howWeCalculateIndexing": "Як ми розраховуємо прогнозовану індексацію",
+        "indexingExplanation": "Ми враховуємо історичну інфляцію, зростання ВВП, прогнози НБУ та середні темпи зростання заробітної плати в економіці.",
+        "indexingTypes": {
+          "forecasted": "Прогнозована індексація",
+          "real": "Реальна індексація"
+        },
+        "zusIncrement": "Зростання капіталу в ZUS",
+        "mainAccount": "Основний рахунок",
+        "subAccount": "Субрахунок",
+        "accountValue": "Вартість рахунку",
+        "subAccountValue": "Вартість субрахунку",
+        "forecast": "Прогноз",
+        "stateAt": "Стан на {{year}}",
+        "valueIn": "Вартість у {{year}}"
+      }
+    }
   }
 }
