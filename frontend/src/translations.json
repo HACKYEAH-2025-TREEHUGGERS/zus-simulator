@@ -24,7 +24,8 @@
         "zusFunds": "Wysokość zgromadzonych środków na koncie i subkoncie ZUS",
         "includeSickLeave": "Uwzględniaj możliwość zwolnień lekarskich",
         "programMyRetirement": "Zaprognozuj moją przyszłą emeryturę",
-        "tooltipWorkStartDate": "Rok rozpoczęcia pracy i zakończenia pracy odnosi się do stycznia"
+        "tooltipWorkStartDate": "Rok rozpoczęcia pracy i zakończenia pracy odnosi się do stycznia",
+        "tooltipSickLeave": "Pracujący w Polsce przebywają średnio na zwolnieniach lekarskich około 34 dni rocznie. Zwolnienie lekarskie obniża świadczenie do 80% podstawy wynagrodzenia."
       }
     }
   },

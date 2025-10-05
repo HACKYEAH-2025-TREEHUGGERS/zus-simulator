@@ -12,16 +12,13 @@ export const retirementFormSchema = z.object({
     .number()
     .min(0, { message: 'Expected retirement must be non-negative' }),
   gender: z.enum(genders),
-  date: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: 'Invalid date format',
-  }),
   grossSalary: z
     .number()
     .min(0, { message: 'Gross salary must be non-negative' }),
   workStartDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Invalid date format',
   }),
-  estimatedRetirementAge: z.number(),
+  expectedRetirementYear: z.number(),
   zusFunds: z.number().optional(),
   initialCapital: z.number().optional(),
   includeSickLeave: z.boolean(),
@@ -40,18 +37,17 @@ export const RetirementFormProvider = ({
     resolver: zodResolver(retirementFormSchema),
     defaultValues: {
       step: 1,
-      age: 0,
-      expectedRetirement: 0,
+      age: undefined,
+      expectedRetirement: undefined,
       gender: 'male',
-      date: new Date().toString(),
-      grossSalary: 0,
-      workStartDate: new Date().toString(),
-      estimatedRetirementAge: 65,
-      zusFunds: 0,
+      grossSalary: undefined,
+      workStartDate: undefined,
+      expectedRetirementYear: undefined,
+      zusFunds: undefined,
       initialCapital: 0,
       includeSickLeave: false,
     },
-    mode: 'all',
+    mode: 'onChange',
   })
 
   return (
