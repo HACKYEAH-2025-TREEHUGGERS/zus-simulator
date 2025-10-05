@@ -8,7 +8,10 @@
         "male": "Mężczyzna",
         "female": "Kobieta",
         "select": "Wybierz",
-        "enterPLN": "Wprowadź kwotę w PLN"
+        "enterPLN": "Wprowadź kwotę w PLN",
+        "years_plural": "{{count}} rok",
+        "years_plural_2_4": "{{count}} lata",
+        "years_plural_5+": "{{count}} lat"
       },
       "step1": {
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
@@ -44,9 +47,11 @@
         "indicators": "Wskaźniki",
         "comparison": "Porównanie emerytur",
         "expectationsLine1part1": "Brakuje Ci ",
-        "expectationsLine1part2": " zł do oczekiwanej emerytury",
+        "expectationsLine1part2": " do oczekiwanej emerytury",
         "expectationsLine2part1": "Aby osiągnąć cel, musisz pracować dodatkowe ",
-        "expectationsLine2part2": " (do roku {{retirementYear}})"
+        "expectationsLine2part2": " (do roku {{retirementYear}})",
+        "l4Loss": "Strata z powodu L4",
+        "delayBenefits": "Korzyści z odroczenia emerytury"
       }
     }
   },

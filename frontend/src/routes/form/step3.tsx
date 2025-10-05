@@ -50,6 +50,10 @@ export function Step3() {
       <div className="mt-4 flex w-full gap-4">
         <Box className="flex flex-col gap-2">
           <Text className="text-sm">{t('step3.illnessInfluence')}</Text>
+          <Text className="text-xs">
+            {t('step3.l4Loss')}:{' '}
+            <span className="font-semibold text-warning">-173 zł (5.1%)</span>
+          </Text>
         </Box>
         <Box className="flex flex-col gap-2">
           <Text className="text-sm">{t('step3.indicators')}</Text>
@@ -57,7 +61,41 @@ export function Step3() {
         </Box>
       </div>
 
-      <Box className="flex flex-col gap-2 mt-4"></Box>
+      <Box className="flex flex-col gap-2 mt-4">
+        <Text className="text-sm">{t('step3.delayBenefits')}</Text>
+
+        <div className="flex justify-evenly gap-8">
+          <Box className="flex flex-col items-center w-fit py-1 px-2">
+            <Text className="text-xs">
+              {t('common.years_plural', { count: 1 })}
+            </Text>
+            <Text className="text-sm font-semibold text-primary mt-2">
+              +10.0%
+            </Text>
+            <Text className="text-xs">+326zł</Text>
+          </Box>
+
+          <Box className="flex flex-col items-center w-fit py-1 px-2">
+            <Text className="text-xs">
+              {t('common.years_plural_2_4', { count: 2 })}
+            </Text>
+            <Text className="text-sm font-semibold text-primary mt-2">
+              +20.5%
+            </Text>
+            <Text className="text-xs">+759zł</Text>
+          </Box>
+
+          <Box className="flex flex-col items-center w-fit py-1 px-2">
+            <Text className="text-xs">
+              {t('common.years_plural_5+', { count: 5 })}
+            </Text>
+            <Text className="text-sm font-semibold text-primary mt-2">
+              +50.0%
+            </Text>
+            <Text className="text-xs">+1 326zł</Text>
+          </Box>
+        </div>
+      </Box>
 
       <div className="flex gap-2 mt-10">
         <Button

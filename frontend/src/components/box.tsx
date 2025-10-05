@@ -9,7 +9,7 @@ export const Box = ({
 }) => {
   return (
     <div
-      className={cn('border border-black/10 rounded-lg p-6 w-full', className)}
+      className={cn('border border-black/10 rounded-xl p-6 w-full', className)}
     >
       {children}
     </div>
