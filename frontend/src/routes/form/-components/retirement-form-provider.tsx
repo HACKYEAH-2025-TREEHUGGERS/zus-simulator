@@ -39,15 +39,15 @@ export const RetirementFormProvider = ({
       step: 1,
       age: undefined,
       expectedRetirement: undefined,
-      gender: 'male',
+      gender: undefined,
       grossSalary: undefined,
       workStartDate: undefined,
       expectedRetirementYear: undefined,
       zusFunds: undefined,
-      initialCapital: 0,
+      initialCapital: undefined,
       includeSickLeave: false,
     },
-    mode: 'onChange',
+    mode: 'all',
   })
 
   return (

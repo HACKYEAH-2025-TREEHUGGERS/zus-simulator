@@ -15,7 +15,7 @@ export function Step1() {
       <Text className="text-xl font-semibold text-black">
         {t('step1.enterBasicInfo')}
       </Text>
-      <Text className="text-xl text-darkBlue">
+      <Text className="text-base text-black/80">
         {t('step1.checkExpectations')}
       </Text>
 
@@ -34,6 +34,7 @@ export function Step1() {
           maximumFractionDigits: 2,
         }}
         isRequired
+        placeholder={t('common.enterPLN')}
       />
 
       <Button

@@ -6,7 +6,9 @@
         "continue": "Dalej",
         "back": "Cofnij",
         "male": "Mężczyzna",
-        "female": "Kobieta"
+        "female": "Kobieta",
+        "select": "Wybierz",
+        "enterPLN": "Wprowadź kwotę w PLN"
       },
       "step1": {
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
@@ -25,7 +27,9 @@
         "includeSickLeave": "Uwzględniaj możliwość zwolnień lekarskich",
         "programMyRetirement": "Zaprognozuj moją przyszłą emeryturę",
         "tooltipWorkStartDate": "Rok rozpoczęcia pracy i zakończenia pracy odnosi się do stycznia",
-        "tooltipSickLeave": "Pracujący w Polsce przebywają średnio na zwolnieniach lekarskich około 34 dni rocznie. Zwolnienie lekarskie obniża świadczenie do 80% podstawy wynagrodzenia."
+        "tooltipSickLeave": "Pracujący w Polsce przebywają średnio na zwolnieniach lekarskich około 34 dni rocznie. Zwolnienie lekarskie obniża świadczenie do 80% podstawy wynagrodzenia.",
+        "initialCapital": "Kapitał początkowy",
+        "tooltipInitialCapital": "Kapitał początkowy ZUS to odtworzona kwota składek na ubezpieczenie społeczne opłaconych przed 1 stycznia 1999 r"
       }
     }
   },

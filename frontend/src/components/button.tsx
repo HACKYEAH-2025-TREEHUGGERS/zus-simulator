@@ -7,8 +7,6 @@ type ButtonComponentProps = ButtonProps & {
 } & React.RefAttributes<HTMLButtonElement>
 
 export const Button = ({ variant, ...props }: ButtonComponentProps) => {
-  console.log(variant)
-
   return (
     <AriaButton
       {...props}
