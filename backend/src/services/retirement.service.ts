@@ -117,6 +117,57 @@ export class RetirementService {
     return maxYears; // Return max if target cannot be reached
   }
 
+  private async calculateSalaryToReachRetirement(
+    payload: CalculateRetirementInput,
+    targetRetirementAmount: number,
+    projectionParams: any[],
+    sickDays: { avgFemale: string | null; avgMale: string | null }[]
+  ): Promise<number> {
+    const currentYear = new Date().getFullYear();
+    const userSickDays = payload.includeSickLeave
+      ? parseFloat((payload.gender === 'male' ? sickDays[0]?.avgMale : sickDays[0]?.avgFemale) ?? '0')
+      : undefined;
+
+    const initialBalance = Math.max(0, payload.zusFunds || 0);
+    let testSalary = payload.grossSalary;
+    const salaryIncrement = 100;
+    const maxSalary = payload.grossSalary * 10; // Safety limit
+
+    while (testSalary <= maxSalary) {
+      let accountBalance = this.calculateAccountBalance(
+        initialBalance,
+        testSalary,
+        projectionParams,
+        currentYear,
+        payload.expectedRetirementYear,
+        userSickDays
+      );
+
+      // Add initial capital for old retirement system
+      if (payload.workStartDate < 1999) {
+        accountBalance += payload.initialCapital || 0;
+      }
+
+      // Calculate expected lifetime at retirement age
+      const ageOnRetirement = payload.expectedRetirementYear - (new Date().getFullYear() - payload.age);
+      const avgLife = await db
+        .select()
+        .from(averageLifetime)
+        .where(eq(averageLifetime.age, ageOnRetirement));
+
+      const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
+      const monthlyRetirement = accountBalance / expectedLifetime;
+
+      if (monthlyRetirement >= targetRetirementAmount) {
+        return this.roundNumber(testSalary);
+      }
+
+      testSalary += salaryIncrement;
+    }
+
+    return this.roundNumber(maxSalary); // Return max if target cannot be reached
+  }
+
   public async calculateRetirementEndpoint(payload: CalculateRetirementInput) {
     const today = new Date();
     const isOldRetirementSystem = payload.workStartDate < 1999;
@@ -192,6 +243,16 @@ export class RetirementService {
       );
     }
 
+    let salaryToReachWantedRetirement = 0;
+    if (expectedRetirementToUse < payload.wantedRetirement) {
+      salaryToReachWantedRetirement = await this.calculateSalaryToReachRetirement(
+        payload,
+        payload.wantedRetirement,
+        projectionParams,
+        sickDays
+      );
+    }
+
     return {
       expectedRetirementValue: this.roundNumber(expectedRetirementValue),
       expectedRetirementValueWithSickDays: this.roundNumber(expectedRetirementValueWithSickDays),
@@ -203,6 +264,7 @@ export class RetirementService {
       estimatedSickDaysMen: sickDays[0].avgMale || 0,
       replacementRate: this.roundNumber(replacementRate),
       yearsToReachWantedRetirement: yearsToReachWantedRetirement,
+      salaryToReachWantedRetirement: salaryToReachWantedRetirement,
     };
   }
 }
