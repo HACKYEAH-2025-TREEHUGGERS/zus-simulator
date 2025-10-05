@@ -40,7 +40,8 @@
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
         "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości",
         "retirementQuestion": "Jaką emeryturę chciałbyś otrzymywać miesięcznie?",
-        "didYouKnow": "Czy wiesz, że..."
+        "didYouKnow": "Czy wiesz, że...",
+        "funFactError": "Nie udało się załadować ciekawostki"
       },
       "step2": {
         "fillForm": "Wypełnij formularz",
@@ -153,7 +154,8 @@
         "enterBasicInfo": "Enter your basic information",
         "checkExpectations": "Check how your expectations compare to reality",
         "retirementQuestion": "What monthly pension would you like to receive?",
-        "didYouKnow": "Did you know..."
+        "didYouKnow": "Did you know...",
+        "funFactError": "Failed to load fun fact"
       },
       "step2": {
         "fillForm": "Fill out the form",
@@ -266,7 +268,8 @@
         "enterBasicInfo": "Введіть основну інформацію",
         "checkExpectations": "Перевірте, як ваші очікування співвідносяться з реальністю",
         "retirementQuestion": "Яку пенсію ви хотіли б отримувати щомісяця?",
-        "didYouKnow": "Чи знали ви, що..."
+        "didYouKnow": "Чи знали ви, що...",
+        "funFactError": "Не вдалося завантажити цікавий факт"
       },
       "step2": {
         "fillForm": "Заповніть форму",
