@@ -93,10 +93,6 @@ export function Step1() {
         {t('step1.didYouKnow')}
       </Text>
 
-      <ReactEcharts
-        option={option}
-        style={{ width: '100%', height: '300px' }} // Set the container size
-      />
       <Button
         onClick={() => {
           const newStep =
