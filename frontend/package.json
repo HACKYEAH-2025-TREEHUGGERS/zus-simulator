@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite",
     "build": "vite build && tsc",
     "serve": "vite preview",
     "test": "vitest run",
@@ -21,6 +21,8 @@
     "@tanstack/router-plugin": "^1.132.0",
     "@uidotdev/usehooks": "^2.4.1",
     "classnames": "^2.5.1",
+    "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
     "i18next": "^25.5.3",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.22",

@@ -16,7 +16,8 @@
       "step1": {
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
         "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości",
-        "retirementQuestion": "Jaką emeryturę chciałbyś otrzymywać miesięcznie?"
+        "retirementQuestion": "Jaką emeryturę chciałbyś otrzymywać miesięcznie?",
+        "didYouKnow": "Czy wiesz, że..."
       },
       "step2": {
         "fillForm": "Wypełnij formularz",
