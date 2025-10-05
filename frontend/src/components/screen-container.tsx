@@ -10,6 +10,8 @@ export const ScreenContainer = ({
   className,
 }: ScreenContainerProps) => {
   return (
-    <div className={cn('max-w-3xl mx-auto p-4', className)}>{children}</div>
+    <div className={cn('max-w-3xl mx-auto p-4 pb-20', className)}>
+      {children}
+    </div>
   )
 }

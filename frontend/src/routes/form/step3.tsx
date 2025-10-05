@@ -303,9 +303,7 @@ export function Step3() {
         <Button
           onClick={() => {
             navigate({
-              to: '/form',
-              search: { step: 3 },
-              replace: true,
+              to: '/dashboard',
             })
           }}
           className="ml-auto w-full"

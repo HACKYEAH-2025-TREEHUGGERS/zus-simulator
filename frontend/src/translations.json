@@ -12,7 +12,12 @@
         "years_plural": "{{count}} rok",
         "years_plural_2_4": "{{count}} lata",
         "years_plural_5+": "{{count}} lat",
-        "today": "Dziś"
+        "today": "Dziś",
+        "delete": "Usuń",
+        "year": "Rok",
+        "sickDays": "Dni chorobowe",
+        "addYear": "Dodaj rok",
+        "addRange": "Dodaj przedział"
       },
       "step1": {
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
@@ -43,7 +48,9 @@
         "goToDashboard": "Przejdź do Dashboardu",
         "forecastTooltip": "Biorąc pod uwagę stopniowy wzrost najniższej krajowej",
         "exactValue": "Wysokość rzeczywista",
+        "tooltipExactValue": "Wysokość rzeczywista to prognozowana wysokość emerytury, którą otrzymasz, jeśli przejdziesz na emeryturę w planowanym roku zakończenia aktywności zawodowej.",
         "realValue": "Wysokość urealniona",
+        "tooltipRealValue": "Wysokość urealniona to prognozowana wysokość emerytury, którą otrzymasz, jeśli przejdziesz na emeryturę w planowanym roku zakończenia aktywności zawodowej i uwzględniającą inflację.",
         "illnessInfluence": "Wpływ okresów chorobowych",
         "indicators": "Wskaźniki",
         "comparison": "Porównanie emerytur",
@@ -64,6 +71,27 @@
           "relativeAverageLevel": "Poz. wzgl. średniej",
           "indexedWage": "Wynagrodzenie zindeksowane"
         }
+      },
+      "dashboard": {
+        "title": "Dashboard",
+        "downloadReport": "Pobierz raport",
+        "compensationHistory": "Historia wynagrodzeń",
+        "compensationHistorySubtext": "Dokonaj szerszych zmian w zakresie prognozowania",
+        "indexingType": "Typ indeksacji",
+        "howWeCalculateIndexing": "Jak obliczamy indeksacją prognozowaną",
+        "indexingExplanation": "Uwzględniamy historyczną inflację z ostatnich lat, wskaźnik wzrostu PKB, prognozy NBP oraz średnie tempo wzrostu wynagrodzeń w gospodarce.",
+        "indexingTypes": {
+          "forecasted": "Indeksacja prognozowana",
+          "real": "Indeksacja rzeczywista"
+        },
+        "zusIncrement": "Narastanie kapitału w ZUS",
+        "mainAccount": "Konto podstawowe",
+        "subAccount": "Subkonto",
+        "accountValue": "Wartość konta",
+        "subAccountValue": "Wartość subkonta",
+        "forecast": "Prognoza",
+        "stateAt": "Stan na {{year}}",
+        "valueIn": "Wartość w {{year}}"
       }
     }
   },

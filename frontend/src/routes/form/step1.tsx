@@ -179,7 +179,7 @@ export function Step1() {
           !form.watch('wantedRetirement') ||
           !!form.formState.errors.wantedRetirement
         }
-        className="mt-10 ml-auto w-30"
+        className="mt-10 ml-auto w-1/3"
       >
         {t('common.continue')}
       </Button>
