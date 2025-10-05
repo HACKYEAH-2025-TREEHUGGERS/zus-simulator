@@ -47,7 +47,7 @@ export const Stepper = ({ steps, currentStep, className }: StepperProps) => {
                     index < currentStep && 'border-primary',
                   )}
                   style={{
-                    width: containerWidth / steps.length + steps.length * 14,
+                    width: containerWidth / steps.length + steps.length * 20,
                   }}
                 />
               )}

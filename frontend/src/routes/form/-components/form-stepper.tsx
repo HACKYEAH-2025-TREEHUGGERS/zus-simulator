@@ -17,7 +17,5 @@ export const FormStepper = ({ maxSteps }: { maxSteps: number }) => {
     }))
   }, [completedSteps, currentStep])
 
-  console.log(completedSteps, currentStep)
-
   return <Stepper currentStep={currentStep} steps={steps} className="my-6" />
 }

@@ -35,7 +35,17 @@
         "summary": "Podsumowanie",
         "forecastMessage": "Twoja prognozowana wysokość emerytury",
         "newSimulation": "Wykonaj nową symulację",
-        "goToDashboard": "Przejdź do Dashboardu"
+        "goToDashboard": "Przejdź do Dashboardu",
+        "forecastTooltip": "Biorąc pod uwagę stopniowy wzrost najniższej krajowej",
+        "exactValue": "Wysokość rzeczywista",
+        "realValue": "Wysokość urealniona",
+        "illnessInfluence": "Wpływ okresów chorobowych",
+        "indicators": "Wskaźniki",
+        "comparison": "Porównanie emerytur",
+        "expectationsLine1part1": "Brakuje Ci ",
+        "expectationsLine1part2": " zł do oczekiwanej emerytury",
+        "expectationsLine2part1": "Aby osiągnąć cel, musisz pracować dodatkowe ",
+        "expectationsLine2part2": " (do roku {{retirementYear}})"
       }
     }
   },
