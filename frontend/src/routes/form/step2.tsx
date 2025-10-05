@@ -25,8 +25,24 @@ export function Step2() {
     }
   }, [form.watch('workStartDate')])
 
-  const submit = (data: z.infer<typeof retirementFormSchema>) => {
-    console.log(data)
+  const submit = async (data: z.infer<typeof retirementFormSchema>) => {
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/retirement/calculate',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        },
+      )
+
+      const result = await response.json()
+      console.log(result)
+    } catch (error) {
+      console.error('Error calling API:', error)
+    }
   }
 
   const isInvalid = useMemo(() => {
@@ -51,7 +67,7 @@ export function Step2() {
       </Text>
 
       <form onSubmit={form.handleSubmit(submit)} className="mt-8">
-        <div className='flex gap-15 mt-8"'>
+        <div className='mt-8" flex gap-15'>
           <NumberInput
             {...form.register('age', {
               required: true,
@@ -132,7 +148,7 @@ export function Step2() {
             onChange={(v) => form.setValue('initialCapital', v)}
             minValue={0}
             label={t('step2.initialCapital')}
-            className="mt-8 animate-slide-down"
+            className="animate-slide-down mt-8"
             suffix="PLN"
             formatOptions={{
               maximumFractionDigits: 2,
@@ -197,26 +213,29 @@ export function Step2() {
                 replace: true,
               })
             }}
-            className="mt-10 w-30 mr-auto"
+            className="mt-10 mr-auto w-30"
             variant="secondary"
           >
             {t('common.back')}
           </Button>
           <Button
             type="submit"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault()
-              const newStep =
-                form.getValues('step') === 2 ? 3 : form.getValues('step')
-              form.setValue('step', newStep)
-              navigate({
-                to: '/form',
-                search: { step: newStep },
-                replace: true,
-              })
+              if (!isInvalid) {
+                await submit(form.getValues())
+                const newStep =
+                  form.getValues('step') === 2 ? 3 : form.getValues('step')
+                form.setValue('step', newStep)
+                navigate({
+                  to: '/form',
+                  search: { step: newStep },
+                  replace: true,
+                })
+              }
             }}
             isDisabled={isInvalid}
-            className="mt-10 min-w-40 ml-auto"
+            className="mt-10 ml-auto min-w-40"
           >
             {t('step2.programMyRetirement')}
           </Button>
