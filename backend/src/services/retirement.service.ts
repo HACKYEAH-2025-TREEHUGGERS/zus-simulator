@@ -2,8 +2,8 @@ import { addYears, isBefore, parse, setDate, setMonth, subYears } from 'date-fns
 import { FEMALE_RETIREMENT_AGE, MALE_RETIREMENT_AGE } from '../constants';
 import { CalculateRetirementInput } from '../schemas';
 import { db } from '../db';
-import { retirementProjectionParams, averageLifetime } from '../db/schema';
-import { eq } from 'drizzle-orm';
+import { retirementProjectionParams, averageLifetime, avgSickLeaveDuration } from '../db/schema';
+import { avg, eq } from 'drizzle-orm';
 
 type Gender = 'male' | 'female';
 
@@ -21,14 +21,15 @@ export class RetirementService {
 
   public async calculateRetirementValue(payload: CalculateRetirementInput): Promise<number> {
     const today = new Date();
-    const oldRetirementDate = new Date(1999, 0, 1);
     const isOldRetirementSystem = payload.workStartDate < 1999;
 
-    if (isOldRetirementSystem) {
-      return -1;
-    }
-
     const projectionParams = await db.select().from(retirementProjectionParams);
+    const sickDays = await db
+      .select({
+        avgFemale: avg(avgSickLeaveDuration.avg_female_sick_leave_days).as('avgFemale'),
+        avgMale: avg(avgSickLeaveDuration.avg_male_sick_leave_days).as('avgMale'),
+      })
+      .from(avgSickLeaveDuration);
 
     const contributionPercentage = 0.1952;
     const currentYear = new Date().getFullYear();
@@ -44,11 +45,27 @@ export class RetirementService {
       salaryNormalized *= realWageGrowthIndex;
 
       // dodac kwote brutto * contributionPercentage (wplata na konto emerytalne zus)
-      currentAccountBalance += salaryNormalized * contributionPercentage * 12;
+      let yearIncome = salaryNormalized * contributionPercentage * 12;
+
+      // uwzglednic chorobowe
+      if (payload.includeSickLeave) {
+        const userSickDays =
+          payload.gender === 'male' ? sickDays[0]?.avgMale : sickDays[0]?.avgFemale;
+
+        if (userSickDays) {
+          yearIncome = (yearIncome / 365 - parseFloat(userSickDays)) * 365;
+        }
+      }
+
+      currentAccountBalance += yearIncome;
 
       // pomnozyc przez waloryzacje
       const valorizationIndex = thisYearProjectionParams?.accountValorizationIndex || 100;
       currentAccountBalance *= valorizationIndex / 100;
+    }
+
+    if (isOldRetirementSystem) {
+      currentAccountBalance += payload.initialCapital || 0;
     }
 
     const ageOnRetirement = payload.expectedRetirementYear - (today.getFullYear() - payload.age);
@@ -58,6 +75,7 @@ export class RetirementService {
       .where(eq(averageLifetime.age, ageOnRetirement));
 
     const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
+
     return currentAccountBalance / expectedLifetime;
   }
 }
