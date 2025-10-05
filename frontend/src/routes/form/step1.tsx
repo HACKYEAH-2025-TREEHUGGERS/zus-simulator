@@ -12,8 +12,21 @@ export function Step1() {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const option = {
-    color: ['#2E8B57', '#3CB371', '#66CDAA', '#90EE90', '#B0E0E6'],
-
+    color: ['#00993f', '#a0cca9', '#b4d7bb', '#c8e2ce', '#dceddf', '#eff8f0'],
+    tooltip: {
+      trigger: 'item',
+      formatter: (params: any) => {
+        const amounts: Record<string, string> = {
+          'Poniżej minimalnej': '< 1780 PLN',
+          Minimalna: '~1780 PLN',
+          'Poniżej średniej': '1780 - 3500 PLN',
+          'Na poziomie średniej': '~3500 PLN',
+          'Powyżej średniej': '3500 - 6000 PLN',
+          Wysokie: '> 6000 PLN',
+        }
+        return `${params.name}<br/>${amounts[params.name]}<br/>${params.percent}%`
+      },
+    },
     series: [
       {
         name: 'Access Source',
@@ -27,12 +40,12 @@ export function Step1() {
         },
 
         data: [
-          { value: 335, name: 'Poniżej minimalnej' },
-          { value: 310, name: 'Minimalna' },
-          { value: 234, name: 'Wysokie' },
-          { value: 135, name: 'Powyżej średniej' },
-          { value: 1548, name: 'Poniżej średniej' },
-          { value: 532, name: 'Na poziomie średniej' },
+          { value: 30, name: 'Poniżej minimalnej' },
+          { value: 180, name: 'Minimalna' },
+          { value: 70, name: 'Wysokie' },
+          { value: 140, name: 'Powyżej średniej' },
+          { value: 480, name: 'Poniżej średniej' },
+          { value: 170, name: 'Na poziomie średniej' },
         ],
 
         label: {
