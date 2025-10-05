@@ -77,11 +77,15 @@ export class RetirementService {
 
     const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
 
+    const expectedRetirementValue = currentAccountBalance / expectedLifetime;
+    const stopaZastapienia = expectedRetirementValue / salaryNormalized;
+
     return {
-      expectedRetirementValue: currentAccountBalance / expectedLifetime,
+      expectedRetirementValue: expectedRetirementValue,
       expectedRetirementValueWithSickDays: currentAccountBalanceWithSickDays / expectedLifetime,
       estimatedSickDaysWomen: sickDays[0].avgFemale || 0,
       estimatedSickDaysMen: sickDays[0].avgMale || 0,
+      stopaZastapienia: stopaZastapienia,
     };
   }
 }
