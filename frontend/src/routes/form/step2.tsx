@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { useTranslation } from 'react-i18next'
 import { Text } from 'react-aria-components'
 import { useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useRetirementForm } from './-components/retirement-form-provider'
 import type {
   genders,
@@ -28,7 +29,15 @@ export function Step2() {
     console.log(data)
   }
 
-  console.log(form.formState.touchedFields)
+  const isInvalid = useMemo(() => {
+    return Number(form.watch('workStartDate')) > 1999
+      ? Object.entries(form.getValues())
+          .filter(([key]) => key !== 'initialCapital')
+          .some(([_, value]) => Number.isNaN(value) || value === undefined)
+      : Object.values(form.getValues()).some(
+          (v) => Number.isNaN(v) || v === undefined,
+        )
+  }, [form.watch()])
 
   return (
     <div className="flex flex-col gap-2">
@@ -204,7 +213,7 @@ export function Step2() {
                 replace: true,
               })
             }}
-            isDisabled={!form.formState.isValid}
+            isDisabled={isInvalid}
             className="mt-10 min-w-40 ml-auto"
           >
             {t('step2.programMyRetirement')}

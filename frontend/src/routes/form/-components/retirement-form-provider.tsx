@@ -47,7 +47,7 @@ export const RetirementFormProvider = ({
       initialCapital: undefined,
       includeSickLeave: false,
     },
-    mode: 'all',
+    mode: 'onChange',
   })
 
   return (
