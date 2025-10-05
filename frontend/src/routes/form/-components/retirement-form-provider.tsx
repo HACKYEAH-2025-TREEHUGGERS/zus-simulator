@@ -3,9 +3,15 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+export const genders = ['male', 'female'] as const
+
 export const retirementFormSchema = z.object({
   step: z.number().min(1).max(3),
-  gender: z.enum(['male', 'female']),
+  age: z.number(),
+  expectedRetirement: z
+    .number()
+    .min(0, { message: 'Expected retirement must be non-negative' }),
+  gender: z.enum(genders),
   date: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Invalid date format',
   }),
@@ -34,6 +40,8 @@ export const RetirementFormProvider = ({
     resolver: zodResolver(retirementFormSchema),
     defaultValues: {
       step: 1,
+      age: 0,
+      expectedRetirement: 0,
       gender: 'male',
       date: new Date().toString(),
       grossSalary: 0,
@@ -43,6 +51,7 @@ export const RetirementFormProvider = ({
       initialCapital: 0,
       includeSickLeave: false,
     },
+    mode: 'all',
   })
 
   return (

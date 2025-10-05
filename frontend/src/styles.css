@@ -24,4 +24,28 @@ code {
   --color-darkBlue: rgb(0, 65, 110);
   --color-warning: rgb(240, 94, 94);
   --color-black: rgb(0, 0, 0);
+
+  --color-input: rgb(237, 238, 241);
+
+  --animate-fade-in: fadeIn 0.3s ease-in-out;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  --animate-slide-down: slideDown 0.3s ease-in-out;
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
