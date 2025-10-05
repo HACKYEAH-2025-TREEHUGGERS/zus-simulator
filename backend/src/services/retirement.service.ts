@@ -64,6 +64,45 @@ export class RetirementService {
     return currentAccountBalance;
   }
 
+  private calculateAccountBalanceWithYearlyTracking(
+    initialBalance: number,
+    grossSalary: number,
+    projectionParams: any[],
+    startYear: number,
+    expectedRetirementYear: number,
+    sickDaysPerYear?: number
+  ): Record<number, number> {
+    const contributionPercentage = 0.1952;
+    let currentAccountBalance = initialBalance;
+    let salaryNormalized = grossSalary;
+    const balanceByYear: Record<number, number> = {};
+
+    for (let year = startYear; year < expectedRetirementYear; year++) {
+      const thisYearProjectionParams = projectionParams.find(p => p.year === year);
+
+      // przed dodaniem stawki pomnozyc przez realWageGrowthIndex
+      const realWageGrowthIndex = thisYearProjectionParams?.realWageGrowthIndex || 100;
+      salaryNormalized *= realWageGrowthIndex;
+
+      // dodac kwote brutto * contributionPercentage (wplata na konto emerytalne zus)
+      let yearIncome = salaryNormalized * contributionPercentage * 12;
+
+      if (sickDaysPerYear !== undefined) {
+        currentAccountBalance += (yearIncome / 365 - sickDaysPerYear) * 365;
+      } else {
+        currentAccountBalance += yearIncome;
+      }
+
+      // pomnozyc przez waloryzacje
+      const valorizationIndex = thisYearProjectionParams?.accountValorizationIndex || 100;
+      currentAccountBalance *= valorizationIndex / 100;
+
+      balanceByYear[year] = this.roundNumber(currentAccountBalance);
+    }
+
+    return balanceByYear;
+  }
+
   private async calculateYearsToReachRetirement(
     payload: CalculateRetirementInput,
     targetRetirementAmount: number,
@@ -191,6 +230,14 @@ export class RetirementService {
       payload.expectedRetirementYear
     );
 
+    const balanceByYear = this.calculateAccountBalanceWithYearlyTracking(
+      Math.max(0, payload.zusFunds || 0),
+      payload.grossSalary,
+      projectionParams,
+      payload.workStartDate,
+      payload.expectedRetirementYear
+    );
+
     let currentAccountBalanceWithSickDays = this.calculateAccountBalance(
       Math.max(0, payload.zusFunds || 0),
       payload.grossSalary,
@@ -265,6 +312,7 @@ export class RetirementService {
       replacementRate: this.roundNumber(replacementRate),
       yearsToReachWantedRetirement: yearsToReachWantedRetirement,
       salaryToReachWantedRetirement: salaryToReachWantedRetirement,
+      accountBalanceByYear: balanceByYear,
     };
   }
 }
