@@ -94,14 +94,25 @@ export function Step3() {
 
         <Text className="text-xs leading-2">
           {t('step3.expectationsLine1part1')}
-          <span className="text-warning font-semibold">1753 zł</span>
+          <span className="text-warning font-semibold">
+            {Math.max(
+              0,
+              (form.watch('responseData').salaryToReachWantedRetirement ?? 0) -
+                form.watch('wantedRetirement'),
+            )}{' '}
+            zł
+          </span>
           {t('step3.expectationsLine1part2')}
         </Text>
         <Text className="text-xs leading-2">
           {t('step3.expectationsLine2part1')}
-          <span className="font-semibold">5 lat</span>
+          <span className="font-semibold">
+            {form.watch('responseData').yearsToReachWantedRetirement ?? 0} lat
+          </span>
           {t('step3.expectationsLine2part2', {
-            retirementYear: 2040,
+            retirementYear:
+              form.watch('expectedRetirementYear') +
+              (form.watch('responseData').yearsToReachWantedRetirement ?? 0),
           })}
         </Text>
       </Box>
