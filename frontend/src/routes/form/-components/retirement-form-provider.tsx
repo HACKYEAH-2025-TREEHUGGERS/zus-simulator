@@ -22,6 +22,14 @@ export const retirementFormSchema = z.object({
   zusFunds: z.number().optional(),
   initialCapital: z.number().optional(),
   includeSickLeave: z.boolean(),
+  responseData: z.object({
+    estimatedSickDaysMen: z.number().optional(),
+    estimatedSickDaysWomen: z.number().optional(),
+    expectedRetirementValue: z.number().optional(),
+    expectedRetirementValueDifference: z.number().optional(),
+    expectedRetirementValueWithSickDays: z.number().optional(),
+    replacementRate: z.number().optional(),
+  }),
 })
 
 const RetirementFormContext = createContext<{
@@ -46,6 +54,14 @@ export const RetirementFormProvider = ({
       zusFunds: undefined,
       initialCapital: undefined,
       includeSickLeave: false,
+      responseData: {
+        estimatedSickDaysMen: undefined,
+        estimatedSickDaysWomen: undefined,
+        expectedRetirementValue: undefined,
+        expectedRetirementValueDifference: undefined,
+        expectedRetirementValueWithSickDays: undefined,
+        replacementRate: undefined,
+      },
     },
     mode: 'onChange',
   })

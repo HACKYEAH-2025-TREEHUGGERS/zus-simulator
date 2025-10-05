@@ -13,6 +13,10 @@ import { avg, eq } from 'drizzle-orm';
 type Gender = 'male' | 'female';
 
 export class RetirementService {
+  private roundNumber(num: number): number {
+    return Math.round(num * 100) / 100;
+  }
+
   public calculateRetirementDate(gender: Gender, birthDateString: string): Date {
     const retirementAge =
       gender.toLowerCase() === 'male' ? MALE_RETIREMENT_AGE : FEMALE_RETIREMENT_AGE;
@@ -78,14 +82,19 @@ export class RetirementService {
     const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
 
     const expectedRetirementValue = currentAccountBalance / expectedLifetime;
-    const stopaZastapienia = expectedRetirementValue / salaryNormalized;
+    const expectedRetirementValueWithSickDays =
+      currentAccountBalanceWithSickDays / expectedLifetime;
+    const replacementRate = (expectedRetirementValue / salaryNormalized) * 100;
 
     return {
-      expectedRetirementValue: expectedRetirementValue,
-      expectedRetirementValueWithSickDays: currentAccountBalanceWithSickDays / expectedLifetime,
+      expectedRetirementValue: this.roundNumber(expectedRetirementValue),
+      expectedRetirementValueWithSickDays: this.roundNumber(expectedRetirementValueWithSickDays),
+      expectedRetirementValueDifference: this.roundNumber(
+        expectedRetirementValueWithSickDays - expectedRetirementValue
+      ),
       estimatedSickDaysWomen: sickDays[0].avgFemale || 0,
       estimatedSickDaysMen: sickDays[0].avgMale || 0,
-      stopaZastapienia: stopaZastapienia,
+      replacementRate: this.roundNumber(replacementRate),
     };
   }
 }
