@@ -23,6 +23,8 @@ export function Step1() {
         {...form.register('expectedRetirement', {
           required: true,
         })}
+        value={form.watch('expectedRetirement')}
+        defaultValue={form.getValues('expectedRetirement')}
         onChange={(v) => form.setValue('expectedRetirement', v)}
         minValue={0}
         label={t('step1.retirementQuestion')}
@@ -41,14 +43,15 @@ export function Step1() {
           form.setValue('step', newStep)
           navigate({
             to: '/form',
-            search: { step: newStep },
+            search: { step: 2 },
+            replace: true,
           })
         }}
         isDisabled={
           !form.watch('expectedRetirement') ||
           !!form.formState.errors.expectedRetirement
         }
-        className="mt-10 w-40 ml-auto"
+        className="mt-10 w-30 ml-auto"
       >
         {t('common.continue')}
       </Button>

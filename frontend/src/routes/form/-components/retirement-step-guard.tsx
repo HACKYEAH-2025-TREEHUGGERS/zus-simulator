@@ -10,10 +10,13 @@ export const RetirementStepGuard = ({ children }: PropsWithChildren) => {
   const stepFromForm = form.watch('step')
 
   useEffect(() => {
+    console.log(form.getValues())
+
     if (typeof stepFromSearch !== 'number') {
       navigate({
         to: '/form',
         search: (old) => ({ ...old, step: stepFromForm }),
+        replace: true,
       })
       return
     }
@@ -22,6 +25,7 @@ export const RetirementStepGuard = ({ children }: PropsWithChildren) => {
       navigate({
         to: '/form',
         search: (old) => ({ ...old, step: stepFromForm }),
+        replace: true,
       })
     }
   }, [stepFromForm, stepFromSearch])
