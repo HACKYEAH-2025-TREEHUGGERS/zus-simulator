@@ -2,7 +2,12 @@ import { addYears, isBefore, parse, setDate, setMonth, subYears } from 'date-fns
 import { FEMALE_RETIREMENT_AGE, MALE_RETIREMENT_AGE } from '../constants';
 import { CalculateRetirementInput } from '../schemas';
 import { db } from '../db';
-import { retirementProjectionParams, averageLifetime, avgSickLeaveDuration } from '../db/schema';
+import {
+  retirementProjectionParams,
+  averageLifetime,
+  avgSickLeaveDuration,
+  users,
+} from '../db/schema';
 import { avg, eq } from 'drizzle-orm';
 
 type Gender = 'male' | 'female';
@@ -19,7 +24,7 @@ export class RetirementService {
     return retirementDate;
   }
 
-  public async calculateRetirementValue(payload: CalculateRetirementInput): Promise<number> {
+  public async calculateRetirementValue(payload: CalculateRetirementInput) {
     const today = new Date();
     const isOldRetirementSystem = payload.workStartDate < 1999;
 
@@ -33,8 +38,10 @@ export class RetirementService {
 
     const contributionPercentage = 0.1952;
     const currentYear = new Date().getFullYear();
+    const userSickDays = payload.gender === 'male' ? sickDays[0]?.avgMale : sickDays[0]?.avgFemale;
 
     let currentAccountBalance = Math.max(0, payload.zusFunds || 0);
+    let currentAccountBalanceWithSickDays = Math.max(0, payload.zusFunds || 0);
 
     let salaryNormalized = payload.grossSalary;
     for (let year = currentYear; year < payload.expectedRetirementYear; year++) {
@@ -47,25 +54,19 @@ export class RetirementService {
       // dodac kwote brutto * contributionPercentage (wplata na konto emerytalne zus)
       let yearIncome = salaryNormalized * contributionPercentage * 12;
 
-      // uwzglednic chorobowe
-      if (payload.includeSickLeave) {
-        const userSickDays =
-          payload.gender === 'male' ? sickDays[0]?.avgMale : sickDays[0]?.avgFemale;
-
-        if (userSickDays) {
-          yearIncome = (yearIncome / 365 - parseFloat(userSickDays)) * 365;
-        }
-      }
-
       currentAccountBalance += yearIncome;
+      currentAccountBalanceWithSickDays +=
+        (yearIncome / 365 - parseFloat(userSickDays ?? '0')) * 365;
 
       // pomnozyc przez waloryzacje
       const valorizationIndex = thisYearProjectionParams?.accountValorizationIndex || 100;
       currentAccountBalance *= valorizationIndex / 100;
+      currentAccountBalanceWithSickDays *= valorizationIndex / 100;
     }
 
     if (isOldRetirementSystem) {
       currentAccountBalance += payload.initialCapital || 0;
+      currentAccountBalanceWithSickDays += payload.initialCapital || 0;
     }
 
     const ageOnRetirement = payload.expectedRetirementYear - (today.getFullYear() - payload.age);
@@ -76,7 +77,12 @@ export class RetirementService {
 
     const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
 
-    return currentAccountBalance / expectedLifetime;
+    return {
+      expectedRetirementValue: currentAccountBalance / expectedLifetime,
+      expectedRetirementValueWithSickDays: currentAccountBalanceWithSickDays / expectedLifetime,
+      estimatedSickDaysWomen: sickDays[0].avgFemale || 0,
+      estimatedSickDaysMen: sickDays[0].avgMale || 0,
+    };
   }
 }
 
