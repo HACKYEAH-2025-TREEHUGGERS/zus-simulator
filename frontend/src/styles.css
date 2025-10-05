@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-react-aria-components";
-@tailwind utilities;
-@import './components/checkbox.css';
+@import './components/checkbox/checkbox.css';
 
 body {
   @apply m-0;

@@ -18,6 +18,9 @@ export default defineConfig({
       enforce: 'pre',
     },
   ],
+  server: {
+    port: 8080,
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
