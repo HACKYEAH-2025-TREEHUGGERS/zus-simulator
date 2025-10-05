@@ -51,6 +51,8 @@ export function Step2() {
         expectedRetirementValueWithSickDays:
           result.expectedRetirementValueWithSickDays,
         replacementRate: result.replacementRate,
+        salaryToReachWantedRetirement: result.salaryToReachWantedRetirement,
+        yearsToReachWantedRetirement: result.yearsToReachWantedRetirement,
       })
     } catch (error) {
       console.error('Error calling API:', error)

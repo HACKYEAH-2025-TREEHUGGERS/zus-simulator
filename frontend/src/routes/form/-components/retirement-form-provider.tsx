@@ -28,6 +28,8 @@ export const retirementFormSchema = z.object({
     expectedRetirementValueDifference: z.number().optional(),
     expectedRetirementValueWithSickDays: z.number().optional(),
     replacementRate: z.number().optional(),
+    salaryToReachWantedRetirement: z.number().optional(),
+    yearsToReachWantedRetirement: z.number().optional(),
   }),
 })
 
@@ -60,6 +62,8 @@ export const RetirementFormProvider = ({
         expectedRetirementValueForNow: undefined,
         expectedRetirementValueWithSickDays: undefined,
         replacementRate: undefined,
+        salaryToReachWantedRetirement: undefined,
+        yearsToReachWantedRetirement: undefined,
       },
     },
     mode: 'onChange',
