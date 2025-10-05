@@ -24,19 +24,15 @@ export class RetirementService {
     return retirementDate;
   }
 
-  private async calculateRetirementValue() {
-
-  }
-
   private calculateAccountBalance(
     initialBalance: number,
     grossSalary: number,
-    contributionPercentage: number,
     projectionParams: any[],
     currentYear: number,
     expectedRetirementYear: number,
     sickDaysPerYear?: number
   ): number {
+    const contributionPercentage = 0.1952;
     let currentAccountBalance = initialBalance;
     let salaryNormalized = grossSalary;
 
@@ -76,15 +72,12 @@ export class RetirementService {
       })
       .from(avgSickLeaveDuration);
 
-    const contributionPercentage = 0.1952;
-
     const currentYear = new Date().getFullYear();
     const userSickDays = payload.gender === 'male' ? sickDays[0]?.avgMale : sickDays[0]?.avgFemale;
 
     let currentAccountBalance = this.calculateAccountBalance(
       Math.max(0, payload.zusFunds || 0),
       payload.grossSalary,
-      contributionPercentage,
       projectionParams,
       currentYear,
       payload.expectedRetirementYear
@@ -93,7 +86,6 @@ export class RetirementService {
     let currentAccountBalanceWithSickDays = this.calculateAccountBalance(
       Math.max(0, payload.zusFunds || 0),
       payload.grossSalary,
-      contributionPercentage,
       projectionParams,
       currentYear,
       payload.expectedRetirementYear,
