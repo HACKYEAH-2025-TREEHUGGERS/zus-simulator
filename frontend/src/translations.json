@@ -20,6 +20,7 @@
         "addRange": "Dodaj przedział"
       },
       "step1": {
+        "title": "Kompas",
         "enterBasicInfo": "Wprowadź swoje podstawowe informacje",
         "checkExpectations": "Sprawdź, jak Twoje oczekiwania mają się do rzeczywistości",
         "retirementQuestion": "Jaką emeryturę chciałbyś otrzymywać miesięcznie?",
