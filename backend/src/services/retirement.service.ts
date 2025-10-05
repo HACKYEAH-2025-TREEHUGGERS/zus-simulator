@@ -24,7 +24,47 @@ export class RetirementService {
     return retirementDate;
   }
 
-  public async calculateRetirementValue(payload: CalculateRetirementInput) {
+  private async calculateRetirementValue() {
+
+  }
+
+  private calculateAccountBalance(
+    initialBalance: number,
+    grossSalary: number,
+    contributionPercentage: number,
+    projectionParams: any[],
+    currentYear: number,
+    expectedRetirementYear: number,
+    sickDaysPerYear?: number
+  ): number {
+    let currentAccountBalance = initialBalance;
+    let salaryNormalized = grossSalary;
+
+    for (let year = currentYear; year < expectedRetirementYear; year++) {
+      const thisYearProjectionParams = projectionParams.find(p => p.year === year);
+
+      // przed dodaniem stawki pomnozyc przez realWageGrowthIndex
+      const realWageGrowthIndex = thisYearProjectionParams?.realWageGrowthIndex || 100;
+      salaryNormalized *= realWageGrowthIndex;
+
+      // dodac kwote brutto * contributionPercentage (wplata na konto emerytalne zus)
+      let yearIncome = salaryNormalized * contributionPercentage * 12;
+
+      if (sickDaysPerYear !== undefined) {
+        currentAccountBalance += (yearIncome / 365 - sickDaysPerYear) * 365;
+      } else {
+        currentAccountBalance += yearIncome;
+      }
+
+      // pomnozyc przez waloryzacje
+      const valorizationIndex = thisYearProjectionParams?.accountValorizationIndex || 100;
+      currentAccountBalance *= valorizationIndex / 100;
+    }
+
+    return currentAccountBalance;
+  }
+
+  public async calculateRetirementEndpoint(payload: CalculateRetirementInput) {
     const today = new Date();
     const isOldRetirementSystem = payload.workStartDate < 1999;
 
@@ -37,32 +77,28 @@ export class RetirementService {
       .from(avgSickLeaveDuration);
 
     const contributionPercentage = 0.1952;
+
     const currentYear = new Date().getFullYear();
     const userSickDays = payload.gender === 'male' ? sickDays[0]?.avgMale : sickDays[0]?.avgFemale;
 
-    let currentAccountBalance = Math.max(0, payload.zusFunds || 0);
-    let currentAccountBalanceWithSickDays = Math.max(0, payload.zusFunds || 0);
+    let currentAccountBalance = this.calculateAccountBalance(
+      Math.max(0, payload.zusFunds || 0),
+      payload.grossSalary,
+      contributionPercentage,
+      projectionParams,
+      currentYear,
+      payload.expectedRetirementYear
+    );
 
-    let salaryNormalized = payload.grossSalary;
-    for (let year = currentYear; year < payload.expectedRetirementYear; year++) {
-      const thisYearProjectionParams = projectionParams.find(p => p.year === year);
-
-      // przed dodaniem stawki pomnozyc przez realWageGrowthIndex
-      const realWageGrowthIndex = thisYearProjectionParams?.realWageGrowthIndex || 100;
-      salaryNormalized *= realWageGrowthIndex;
-
-      // dodac kwote brutto * contributionPercentage (wplata na konto emerytalne zus)
-      let yearIncome = salaryNormalized * contributionPercentage * 12;
-
-      currentAccountBalance += yearIncome;
-      currentAccountBalanceWithSickDays +=
-        (yearIncome / 365 - parseFloat(userSickDays ?? '0')) * 365;
-
-      // pomnozyc przez waloryzacje
-      const valorizationIndex = thisYearProjectionParams?.accountValorizationIndex || 100;
-      currentAccountBalance *= valorizationIndex / 100;
-      currentAccountBalanceWithSickDays *= valorizationIndex / 100;
-    }
+    let currentAccountBalanceWithSickDays = this.calculateAccountBalance(
+      Math.max(0, payload.zusFunds || 0),
+      payload.grossSalary,
+      contributionPercentage,
+      projectionParams,
+      currentYear,
+      payload.expectedRetirementYear,
+      parseFloat(userSickDays ?? '0')
+    );
 
     if (isOldRetirementSystem) {
       currentAccountBalance += payload.initialCapital || 0;
@@ -78,7 +114,7 @@ export class RetirementService {
     const expectedLifetime = parseFloat((avgLife[0] as any)[`y_${payload.expectedRetirementYear}`]);
 
     const expectedRetirementValue = currentAccountBalance / expectedLifetime;
-    const stopaZastapienia = expectedRetirementValue / salaryNormalized;
+    const stopaZastapienia = expectedRetirementValue / payload.grossSalary;
 
     return {
       expectedRetirementValue: expectedRetirementValue,

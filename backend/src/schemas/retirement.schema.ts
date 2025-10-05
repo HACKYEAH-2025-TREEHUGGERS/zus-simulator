@@ -5,6 +5,7 @@ export const calculateRetirementSchema = z.object({
   age: z.number(),
   grossSalary: z.number().min(0, { message: 'Gross salary must be non-negative' }),
   workStartDate: z.number(),
+  wantedRetirement: z.number(),
   expectedRetirementYear: z.number(),
   zusFunds: z.number().optional(),
   initialCapital: z.number().optional(),
